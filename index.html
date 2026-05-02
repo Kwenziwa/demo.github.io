@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Beer Ad — Tilt to Pour</title>
+    <style>
+        :root {
+            --creative-width: 300px;
+            --creative-height: 600px;
+            --cta-color: #ffffff;
+            --border-radius: 18px;
+            --shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            background: #0d0d0d;
+            font-family: 'Georgia', serif;
+            padding: 24px;
+        }
+
+        .demo-wrap {
+            display: grid;
+            gap: 10px;
+            justify-items: center;
+        }
+
+        .creative {
+            position: relative;
+            width: var(--creative-width);
+            height: var(--creative-height);
+            overflow: hidden;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            background: #0a0a0a;
+            color: white;
+            -webkit-user-select: none;
+            user-select: none;
+            touch-action: manipulation;
+            isolation: isolate;
+        }
+
+        .scene {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+        }
+
+        .bg-image {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Dark vignette overlay for dramatic beer-ad feel */
+        .vignette {
+            position: absolute;
+            inset: 0;
+            z-index: 2;
+            background:
+                radial-gradient(ellipse at 50% 30%, rgba(0,0,0,0) 30%, rgba(0,0,0,0.72) 100%),
+                linear-gradient(180deg, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0) 30%, rgba(0,0,0,0.15) 60%, rgba(0,0,0,0.65) 100%);
+            pointer-events: none;
+        }
+
+        .content-overlay {
+            position: absolute;
+            inset: 0;
+            z-index: 4;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 22px 18px;
+            pointer-events: none;
+        }
+
+        .brand {
+            align-self: flex-start;
+            padding: 6px 14px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 220, 80, 0.35);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: #f5d060;
+            -webkit-backdrop-filter: blur(6px);
+            backdrop-filter: blur(6px);
+            pointer-events: auto;
+            font-family: Arial, sans-serif;
+        }
+
+        .headline-wrap {
+            margin-bottom: 22px;
+            pointer-events: auto;
+        }
+
+        .headline {
+            margin: 0 0 10px;
+            font-size: 38px;
+            line-height: 0.93;
+            font-weight: 700;
+            font-style: italic;
+            letter-spacing: -0.02em;
+            text-shadow: 0 3px 18px rgba(0, 0, 0, 0.8);
+            color: #fff;
+        }
+
+        .headline em {
+            color: #f5c842;
+            font-style: normal;
+        }
+
+        .subhead {
+            margin: 0 0 16px;
+            font-size: 13px;
+            line-height: 1.45;
+            color: rgba(255, 255, 255, 0.78);
+            text-shadow: 0 1px 6px rgba(0, 0, 0, 0.6);
+            font-family: Arial, sans-serif;
+            font-style: normal;
+            letter-spacing: 0.01em;
+        }
+
+        .cta {
+            align-self: flex-start;
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            padding: 11px 18px;
+            border-radius: 999px;
+            background: linear-gradient(135deg, rgba(220, 160, 20, 0.85), rgba(180, 110, 10, 0.75));
+            border: 1px solid rgba(255, 210, 80, 0.5);
+            color: #fff;
+            font-weight: 700;
+            font-size: 13px;
+            font-family: Arial, sans-serif;
+            letter-spacing: 0.07em;
+            line-height: 1;
+            backdrop-filter: blur(6px);
+            position: relative;
+            z-index: 4;
+            pointer-events: auto;
+            text-transform: uppercase;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.4);
+        }
+
+        .cta-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #f5d060;
+            box-shadow: 0 0 6px rgba(245, 208, 96, 0.8);
+        }
+
+        .liquid-layer {
+            position: absolute;
+            inset: 0;
+            z-index: 3;
+            pointer-events: none;
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        .instruction {
+            position: absolute;
+            left: 50%;
+            top: 14px;
+            transform: translateX(-50%);
+            z-index: 6;
+            padding: 7px 14px;
+            border-radius: 999px;
+            background: rgba(10, 10, 10, 0.5);
+            border: 1px solid rgba(245, 200, 60, 0.3);
+            -webkit-backdrop-filter: blur(8px);
+            backdrop-filter: blur(8px);
+            color: #f5d060;
+            font-size: 11px;
+            font-family: Arial, sans-serif;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        /* Cold blue outer glow on the creative card */
+        .creative {
+            box-shadow:
+                var(--shadow),
+                0 0 0 1.5px rgba(160, 210, 255, 0.18),
+                0 0 38px 6px rgba(100, 180, 255, 0.13);
+        }
+
+        /* Frost / condensation canvas — sits above everything */
+        .condensation-layer {
+            position: absolute;
+            inset: 0;
+            z-index: 8;
+            pointer-events: none;
+        }
+
+        /* Subtle gold gloss */
+        .gloss {
+            position: absolute;
+            inset: 0;
+            z-index: 7;
+            pointer-events: none;
+            background:
+                linear-gradient(118deg,
+                    rgba(255, 220, 100, 0.09) 0%,
+                    rgba(255, 255, 255, 0.05) 10%,
+                    rgba(255, 255, 255, 0) 25%,
+                    rgba(255, 255, 255, 0) 75%,
+                    rgba(255, 200, 50, 0.07) 100%);
+            mix-blend-mode: screen;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="demo-wrap">
+        <div class="creative" id="creative" role="img" aria-label="Beer tilt ad creative">
+            <div class="scene">
+                <img class="bg-image" id="bgImage" src="kfc.png" alt="Beer background" />
+                <div class="vignette"></div>
+
+                <div class="content-overlay">
+                    <div class="brand">Established 1876</div>
+
+                    <div class="headline-wrap">
+                        <h1 class="headline">Born <em>Bold.</em><br>Poured Cold.</h1>
+                        <p class="subhead">
+                            Tilt your device to drink. Pure craftsmanship in every drop.
+                        </p>
+
+                        <div class="cta" id="cta">
+                            <span class="cta-dot"></span>
+                            <span id="ctaTextDisplay">Tilt to Pour</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="liquid-layer">
+                    <canvas id="liquidCanvas"></canvas>
+                </div>
+
+                <div class="condensation-layer">
+                    <canvas id="condCanvas"></canvas>
+                </div>
+
+                <div class="instruction" id="instructionText">&#8592; Tilt to drink &#8594;</div>
+                <div class="gloss"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        (() => {
+            const CONFIG = {
+                size: "300x600",
+                ctaText: "Tilt to Pour",
+                beerColor: "#b86a00",
+                foamColor: "#f5f0e8",
+                fillLevel: 62,
+                backgroundImage: "kfc.png",
+                showBubbles: true
+            };
+
+            const creative = document.getElementById("creative");
+            const canvas = document.getElementById("liquidCanvas");
+            const ctx = canvas.getContext("2d");
+
+            const condCanvas = document.getElementById("condCanvas");
+            const condCtx = condCanvas.getContext("2d");
+
+            const bgImage = document.getElementById("bgImage");
+            const ctaTextDisplay = document.getElementById("ctaTextDisplay");
+            const instructionText = document.getElementById("instructionText");
+
+            const state = {
+                width: 300,
+                height: 600,
+                overlayCoverage: 0.62,
+                targetTiltX: 0,
+                targetTiltY: 0,
+                tiltX: 0,
+                tiltY: 0,
+                velocityX: 0,
+                velocityY: 0,
+                smoothedAngle: 0,
+                lastTime: 0,
+                permissionRequested: false,
+                motionEnabled: false,
+                motionDenied: false,
+                lastOrientationEventAt: 0,
+                beerColor: "#b86a00",
+                foamColor: "#f5f0e8",
+                ctaText: "Tilt to Pour",
+                useDeviceMotion: false,
+                remainingBeer: 1,
+                // Persistent bubbles
+                showBubbles: true,
+                bubbles: [],
+                // Condensation on glass exterior
+                drops: [],
+                drips: []
+            };
+
+            function setInstruction(message) {
+                instructionText.textContent = message;
+            }
+
+            function initBubbles() {
+                state.bubbles = [];
+                const w = creative.clientWidth;
+                const h = creative.clientHeight;
+                const count = Math.round((w * h) / 4000);
+                for (let i = 0; i < count; i++) {
+                    state.bubbles.push({
+                        x: Math.random() * w,
+                        y: Math.random() * h,
+                        r: 0.8 + Math.random() * 2.8,
+                        speed: 12 + Math.random() * 28,
+                        wobble: Math.random() * Math.PI * 2,
+                        wobbleSpeed: 0.5 + Math.random() * 1.2
+                    });
+                }
+            }
+
+            function initCondensation() {
+                const w = creative.clientWidth;
+                const h = creative.clientHeight;
+
+                // Static droplets — scattered over the full glass surface
+                state.drops = [];
+                const dropCount = Math.round((w * h) / 1400);
+                for (let i = 0; i < dropCount; i++) {
+                    state.drops.push({
+                        x: Math.random() * w,
+                        y: Math.random() * h,
+                        r: 1.2 + Math.random() * 5.5,
+                        alpha: 0.06 + Math.random() * 0.22,
+                        // Slightly elongated horizontally
+                        rx: 1 + Math.random() * 0.6,
+                        ry: 1 + Math.random() * 0.4
+                    });
+                }
+
+                // Drips — drops that slowly slide down, leaving a thin trail
+                state.drips = [];
+                const dripCount = Math.round(w / 22);
+                for (let i = 0; i < dripCount; i++) {
+                    state.drips.push({
+                        x: 6 + Math.random() * (w - 12),
+                        y: Math.random() * h,
+                        r: 2 + Math.random() * 3.5,
+                        speed: 6 + Math.random() * 18,
+                        trail: [],
+                        alpha: 0.10 + Math.random() * 0.18
+                    });
+                }
+            }
+
+            function resizeCondCanvas() {
+                const rect = creative.getBoundingClientRect();
+                const ratio = Math.max(1, window.devicePixelRatio || 1);
+                condCanvas.width = Math.round(rect.width * ratio);
+                condCanvas.height = Math.round(rect.height * ratio);
+                condCanvas.style.width = rect.width + "px";
+                condCanvas.style.height = rect.height + "px";
+                condCtx.setTransform(ratio, 0, 0, ratio, 0, 0);
+            }
+
+            function drawCondensation(dt, timestamp) {
+                const w = creative.clientWidth;
+                const h = creative.clientHeight;
+                condCtx.clearRect(0, 0, w, h);
+
+                // When beer is fully drained, clear and stop — no drops on empty glass
+                if (state.remainingBeer <= 0.002) return;
+
+                // --- Cold blue-tinted edge mist ---
+                const edgeMist = condCtx.createRadialGradient(w * 0.5, h * 0.5, h * 0.25, w * 0.5, h * 0.5, h * 0.72);
+                edgeMist.addColorStop(0, "rgba(160,210,255,0.00)");
+                edgeMist.addColorStop(1, "rgba(140,200,255,0.09)");
+                condCtx.fillStyle = edgeMist;
+                condCtx.fillRect(0, 0, w, h);
+
+                // --- Static condensation drops ---
+                for (const d of state.drops) {
+                    condCtx.save();
+                    condCtx.translate(d.x, d.y);
+                    condCtx.scale(d.rx, d.ry);
+                    // Drop body
+                    const grad = condCtx.createRadialGradient(-d.r * 0.2, -d.r * 0.3, d.r * 0.05, 0, 0, d.r);
+                    grad.addColorStop(0, `rgba(220,240,255,${d.alpha * 1.4})`);
+                    grad.addColorStop(0.5, `rgba(180,220,255,${d.alpha})`);
+                    grad.addColorStop(1, `rgba(140,200,255,${d.alpha * 0.2})`);
+                    condCtx.beginPath();
+                    condCtx.arc(0, 0, d.r, 0, Math.PI * 2);
+                    condCtx.fillStyle = grad;
+                    condCtx.fill();
+                    // Tiny specular highlight
+                    condCtx.beginPath();
+                    condCtx.arc(-d.r * 0.28, -d.r * 0.32, d.r * 0.26, 0, Math.PI * 2);
+                    condCtx.fillStyle = `rgba(255,255,255,${d.alpha * 0.7})`;
+                    condCtx.fill();
+                    condCtx.restore();
+                }
+
+                // --- Drips ---
+                for (const drip of state.drips) {
+                    // Advance drip
+                    drip.y += drip.speed * dt;
+                    drip.trail.push({ x: drip.x + Math.sin(drip.y * 0.04) * 1.2, y: drip.y });
+                    if (drip.trail.length > 28) drip.trail.shift();
+
+                    // Reset when it leaves the bottom
+                    if (drip.y > h + drip.r * 2) {
+                        drip.y = -drip.r * 2;
+                        drip.x = 6 + Math.random() * (w - 12);
+                        drip.trail = [];
+                        drip.speed = 6 + Math.random() * 18;
+                        drip.alpha = 0.10 + Math.random() * 0.18;
+                    }
+
+                    // Draw thin trail
+                    if (drip.trail.length > 2) {
+                        condCtx.beginPath();
+                        condCtx.moveTo(drip.trail[0].x, drip.trail[0].y);
+                        for (let i = 1; i < drip.trail.length; i++) {
+                            condCtx.lineTo(drip.trail[i].x, drip.trail[i].y);
+                        }
+                        condCtx.strokeStyle = `rgba(180,220,255,${drip.alpha * 0.45})`;
+                        condCtx.lineWidth = drip.r * 0.45;
+                        condCtx.lineCap = "round";
+                        condCtx.stroke();
+                    }
+
+                    // Draw drip head (teardrop shape)
+                    condCtx.save();
+                    condCtx.translate(drip.x + Math.sin(drip.y * 0.04) * 1.2, drip.y);
+                    const dg = condCtx.createRadialGradient(-drip.r * 0.15, -drip.r * 0.2, drip.r * 0.05, 0, 0, drip.r);
+                    dg.addColorStop(0, `rgba(230,245,255,${drip.alpha * 1.5})`);
+                    dg.addColorStop(0.6, `rgba(180,220,255,${drip.alpha})`);
+                    dg.addColorStop(1, `rgba(140,200,255,0)`);
+                    condCtx.beginPath();
+                    condCtx.arc(0, 0, drip.r, 0, Math.PI * 2);
+                    condCtx.fillStyle = dg;
+                    condCtx.fill();
+                    condCtx.restore();
+                }
+
+                // --- Cold breath / mist rising from top of foam ---
+                // Soft pulsing puffs just above the foam zone
+                const foamZoneY = h * (1 - (state.overlayCoverage * state.remainingBeer)) - h * 0.07;
+                const t = timestamp * 0.0006;
+                for (let i = 0; i < 4; i++) {
+                    const px = w * (0.15 + i * 0.22) + Math.sin(t + i * 1.4) * 14;
+                    const py = foamZoneY + Math.cos(t * 0.8 + i) * 8 - 12;
+                    const pr = 18 + Math.sin(t * 1.1 + i * 0.9) * 6;
+                    const alpha = 0.04 + Math.sin(t * 0.7 + i * 2.1) * 0.02;
+                    const mg = condCtx.createRadialGradient(px, py, 0, px, py, pr);
+                    mg.addColorStop(0, `rgba(200,230,255,${alpha})`);
+                    mg.addColorStop(1, "rgba(200,230,255,0)");
+                    condCtx.beginPath();
+                    condCtx.arc(px, py, pr, 0, Math.PI * 2);
+                    condCtx.fillStyle = mg;
+                    condCtx.fill();
+                }
+            }
+
+            function setCreativeSize(value) {
+                const [w, h] = value.split("x").map(Number);
+                state.width = w;
+                state.height = h;
+                creative.style.setProperty("--creative-width", w + "px");
+                creative.style.setProperty("--creative-height", h + "px");
+                resizeCanvas();
+                initBubbles();
+                initCondensation();
+            }
+
+            function resizeCanvas() {
+                const rect = creative.getBoundingClientRect();
+                const ratio = Math.max(1, window.devicePixelRatio || 1);
+                canvas.width = Math.round(rect.width * ratio);
+                canvas.height = Math.round(rect.height * ratio);
+                canvas.style.width = rect.width + "px";
+                canvas.style.height = rect.height + "px";
+                ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+                resizeCondCanvas();
+            }
+
+            function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+            function lerp(a, b, t) { return a + (b - a) * t; }
+
+            function hexToRgb(hex) {
+                const h = hex.replace("#", "");
+                const full = h.length === 3 ? h.split("").map(c => c + c).join("") : h;
+                const n = parseInt(full, 16);
+                return { r: (n >> 16) & 255, g: (n >> 8) & 255, b: n & 255 };
+            }
+
+            function rgba(hex, alpha) {
+                const { r, g, b } = hexToRgb(hex);
+                return `rgba(${r},${g},${b},${alpha})`;
+            }
+
+            // Lighten/darken a hex color by amount (-1 to 1), returns hex string
+            function shiftColor(hex, amount) {
+                const { r, g, b } = hexToRgb(hex);
+                const shift = v => clamp(Math.round(v + v * amount), 0, 255);
+                const h = v => v.toString(16).padStart(2, "0");
+                return `#${h(shift(r))}${h(shift(g))}${h(shift(b))}`;
+            }
+
+            function updateConfig() {
+                state.ctaText = CONFIG.ctaText || "Tilt to Pour";
+                state.beerColor = CONFIG.beerColor || "#b86a00";
+                state.foamColor = CONFIG.foamColor || "#f5f0e8";
+                state.overlayCoverage = clamp(Number(CONFIG.fillLevel) / 100, 0.1, 0.95);
+                state.showBubbles = Boolean(CONFIG.showBubbles);
+                ctaTextDisplay.textContent = state.ctaText;
+                bgImage.src = CONFIG.backgroundImage || "kfc.png";
+            }
+
+            async function requestMotionPermissionIfNeeded() {
+                if (state.motionEnabled || state.motionDenied) return;
+
+                if (!window.isSecureContext) {
+                    setInstruction("Open on HTTPS to enable tilt");
+                    return;
+                }
+
+                state.permissionRequested = true;
+
+                try {
+                    let orientationGranted = true;
+                    let motionGranted = true;
+
+                    if (typeof DeviceOrientationEvent !== "undefined" &&
+                        typeof DeviceOrientationEvent.requestPermission === "function") {
+                        orientationGranted = (await DeviceOrientationEvent.requestPermission()) === "granted";
+                    }
+
+                    if (typeof DeviceMotionEvent !== "undefined" &&
+                        typeof DeviceMotionEvent.requestPermission === "function") {
+                        motionGranted = (await DeviceMotionEvent.requestPermission()) === "granted";
+                    }
+
+                    if (!orientationGranted && !motionGranted) {
+                        state.motionDenied = true;
+                        setInstruction("Motion access denied");
+                        return;
+                    }
+
+                    state.motionEnabled = true;
+                    state.useDeviceMotion = true;
+                    setInstruction("Tilt to drink");
+                } catch (error) {
+                    state.permissionRequested = false;
+                    setInstruction("Tap again to enable tilt");
+                }
+            }
+
+            function handleOrientation(e) {
+                if (typeof e.gamma !== "number" || typeof e.beta !== "number") return;
+                state.lastOrientationEventAt = performance.now();
+                state.motionEnabled = true;
+                setInstruction("Tilt to drink");
+                state.targetTiltX = clamp(e.gamma / 35, -1, 1);
+                state.targetTiltY = clamp((e.beta - 45) / 45, -1, 1);
+            }
+
+            function handleMotion(e) {
+                const accel = e.accelerationIncludingGravity;
+                if (!accel) return;
+                if (performance.now() - state.lastOrientationEventAt < 250) return;
+
+                const x = typeof accel.x === "number" ? accel.x : 0;
+                const y = typeof accel.y === "number" ? accel.y : 0;
+
+                state.motionEnabled = true;
+                state.useDeviceMotion = true;
+                setInstruction("Tilt to drink");
+                state.targetTiltX = clamp(x / 7, -1, 1);
+                state.targetTiltY = clamp(((-y) - 4.5) / 4.5, -1, 1);
+            }
+
+            function updatePhysics(dt) {
+                const spring = 10;
+                const damping = 0.78;
+
+                state.velocityX += (state.targetTiltX - state.tiltX) * spring * dt;
+                state.velocityY += (state.targetTiltY - state.tiltY) * spring * dt;
+                state.velocityX *= damping;
+                state.velocityY *= damping;
+                state.tiltX += state.velocityX * dt * 60;
+                state.tiltY += state.velocityY * dt * 60;
+
+                if (Math.abs(state.targetTiltX) < 0.02)
+                    state.tiltX = lerp(state.tiltX, 0, Math.min(1, dt * 5));
+                if (Math.abs(state.targetTiltY) < 0.02)
+                    state.tiltY = lerp(state.tiltY, 0, Math.min(1, dt * 5));
+
+                state.smoothedAngle = lerp(state.smoothedAngle, state.tiltX, Math.min(1, dt * 7));
+            }
+
+            function getDrinkTiltAmount() {
+                const sidewaysTilt = Math.abs(state.smoothedAngle);
+                const forwardTilt = clamp(-state.tiltY, 0, 1);
+                return clamp(Math.max(sidewaysTilt * 0.9, forwardTilt), 0, 1);
+            }
+
+            function updateDrinkLevel(dt) {
+                if (state.remainingBeer <= 0) return;
+
+                const drinkTilt = getDrinkTiltAmount();
+                const drinkThreshold = 0.3;
+                const drinkStrength = clamp((drinkTilt - drinkThreshold) / (1 - drinkThreshold), 0, 1);
+                if (drinkStrength <= 0) return;
+
+                const drainRate = lerp(0.05, 0.34, drinkStrength);
+                state.remainingBeer = Math.max(0, state.remainingBeer - drainRate * dt);
+            }
+
+            function drawLiquid(timestamp) {
+                const w = creative.clientWidth;
+                const h = creative.clientHeight;
+                ctx.clearRect(0, 0, w, h);
+
+                if (state.remainingBeer <= 0.002) return;
+
+                const effectiveCoverage = state.overlayCoverage * state.remainingBeer;
+                const baseCoverageH = h * effectiveCoverage;
+                const baseY = h - baseCoverageH;
+
+                const hTilt = state.smoothedAngle * (w * 0.11);
+                const vTilt = state.tiltY * (h * 0.035);
+                const time = timestamp * 0.0018;
+
+                const waveAmp = Math.max(6, h * 0.013) + Math.abs(state.smoothedAngle) * 18;
+
+                const topLeftY  = baseY + vTilt - hTilt * 0.26;
+                const topRightY = baseY + vTilt + hTilt * 0.26;
+
+                // --- Beer body ---
+                // Bright amber: darker just under the foam, blazing gold in the mid-body,
+                // warm and light at the base (backlit through glass).
+                const beerGrad = ctx.createLinearGradient(0, baseY, 0, h);
+                beerGrad.addColorStop(0,    rgba(shiftColor(state.beerColor,  0.05), 0.95));
+                beerGrad.addColorStop(0.18, rgba(shiftColor(state.beerColor,  0.55), 1.00));
+                beerGrad.addColorStop(0.5,  rgba(shiftColor(state.beerColor,  0.70), 1.00));
+                beerGrad.addColorStop(0.82, rgba(shiftColor(state.beerColor,  0.55), 1.00));
+                beerGrad.addColorStop(1,    rgba(shiftColor(state.beerColor,  0.38), 1.00));
+
+                const waveSurface = (x) => {
+                    const p = x / w;
+                    const sY = lerp(topLeftY, topRightY, p);
+                    return sY
+                        + Math.sin(time + x * 0.026) * waveAmp * 0.44
+                        + Math.cos(time * 1.35 + x * 0.013) * waveAmp * 0.20
+                        + Math.sin(time * 0.7  + x * 0.052) * waveAmp * 0.10;
+                };
+
+                ctx.beginPath();
+                ctx.moveTo(0, h);
+                ctx.lineTo(0, waveSurface(0));
+                for (let x = 6; x <= w; x += 6) ctx.lineTo(x, waveSurface(x));
+                ctx.lineTo(w, h);
+                ctx.closePath();
+                ctx.fillStyle = beerGrad;
+                ctx.fill();
+
+                // Horizontal backlight — bright band through the centre of the beer body
+                const streakGrad = ctx.createLinearGradient(0, 0, w, 0);
+                streakGrad.addColorStop(0,    "rgba(255,210,90,0.00)");
+                streakGrad.addColorStop(0.12, "rgba(255,215,100,0.22)");
+                streakGrad.addColorStop(0.28, "rgba(255,230,130,0.38)");
+                streakGrad.addColorStop(0.50, "rgba(255,235,140,0.18)");
+                streakGrad.addColorStop(0.72, "rgba(255,215,100,0.30)");
+                streakGrad.addColorStop(0.88, "rgba(255,210,90,0.18)");
+                streakGrad.addColorStop(1,    "rgba(255,210,90,0.00)");
+                ctx.fillStyle = streakGrad;
+                ctx.fillRect(0, baseY - 20, w, h - baseY + 20);
+
+                // --- Foam layer ---
+                const foamH = Math.max(18, (Math.max(50, h * 0.13) + Math.abs(state.smoothedAngle) * 10) * Math.max(0.35, state.remainingBeer));
+                const { r: fr, g: fg, b: fb } = hexToRgb(state.foamColor);
+
+                // Top edge of foam: flat at rest, waves when tilted
+                const tiltMag = Math.min(1, Math.abs(state.smoothedAngle) * 3.5);
+                const foamTop = (x) => {
+                    const base = waveSurface(x) - foamH;
+                    return base
+                        + Math.sin(x * 0.040 + time * 0.18)       * foamH * 0.07 * tiltMag
+                        + Math.sin(x * 0.085 + time * 0.12 + 1.4) * foamH * 0.04 * tiltMag
+                        + Math.sin(x * 0.160 + time * 0.09 + 2.8) * foamH * 0.02 * tiltMag;
+                };
+
+                // ── 1. Solid cream body ──────────────────────────────────────────
+                ctx.beginPath();
+                // trace top edge left → right
+                for (let x = 0; x <= w; x += 3) {
+                    const y = foamTop(x);
+                    if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                }
+                // trace bottom (beer surface) right → left
+                for (let x = w; x >= 0; x -= 3) ctx.lineTo(x, waveSurface(x) + 2);
+                ctx.closePath();
+                ctx.fillStyle = `rgb(${fr},${fg},${fb})`;
+                ctx.fill();
+
+                // ── 2. Vertical shading gradient over whole foam mass ────────────
+                const gradTop    = foamTop(w / 2) - 4;
+                const gradBottom = waveSurface(w / 2) + 2;
+                const fgGrad = ctx.createLinearGradient(0, gradTop, 0, gradBottom);
+                fgGrad.addColorStop(0.00, `rgba(255,255,255,0.80)`);   // bright peak
+                fgGrad.addColorStop(0.18, `rgba(255,255,255,0.30)`);
+                fgGrad.addColorStop(0.55, `rgba(220,205,185,0.05)`);
+                fgGrad.addColorStop(0.82, `rgba(185,165,138,0.12)`);
+                fgGrad.addColorStop(1.00, `rgba(160,138,108,0.35)`);   // shadow at base
+
+                ctx.beginPath();
+                for (let x = 0; x <= w; x += 3) {
+                    const y = foamTop(x);
+                    if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                }
+                for (let x = w; x >= 0; x -= 3) ctx.lineTo(x, waveSurface(x) + 2);
+                ctx.closePath();
+                ctx.fillStyle = fgGrad;
+                ctx.fill();
+
+                // ── 3. Valley shadows — dark strokes at the crevices ────────────
+                // Find local maxima of foamTop (=valleys in Y = low points of surface)
+                ctx.save();
+                ctx.beginPath();
+                for (let x = 0; x <= w; x += 3) {
+                    const y = foamTop(x);
+                    if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                }
+                for (let x = w; x >= 0; x -= 3) ctx.lineTo(x, waveSurface(x) + 2);
+                ctx.closePath();
+                ctx.clip();
+
+                // Draw a slightly blurred dark stroke along the top edge to shade valleys
+                for (let pass = 0; pass < 3; pass++) {
+                    ctx.beginPath();
+                    for (let x = 0; x <= w; x += 3) {
+                        const y = foamTop(x) + pass * 3;
+                        if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                    }
+                    ctx.strokeStyle = `rgba(155,135,108,${0.08 - pass * 0.02})`;
+                    ctx.lineWidth = 4 + pass * 3;
+                    ctx.stroke();
+                }
+                ctx.restore();
+
+                // ── 4. Top highlight ridge — bright line along the foam peaks ────
+                ctx.beginPath();
+                for (let x = 0; x <= w; x += 3) {
+                    const y = foamTop(x);
+                    if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                }
+                ctx.strokeStyle = `rgba(255,255,255,0.75)`;
+                ctx.lineWidth = 2.5;
+                ctx.lineJoin = "round";
+                ctx.stroke();
+
+
+                // --- Rising bubbles inside beer ---
+                if (!state.showBubbles) return;
+                const dt = 0.016;
+                for (const b of state.bubbles) {
+                    b.y -= b.speed * dt;
+                    b.wobble += b.wobbleSpeed * dt;
+                    const bx = b.x + Math.sin(b.wobble) * 2.5;
+
+                    // Reset when bubble reaches the surface
+                    const surfY = waveSurface(clamp(bx, 0, w));
+                    if (b.y < surfY - b.r) {
+                        b.y = h + b.r;
+                        b.x = Math.random() * w;
+                    }
+
+                    // Only draw inside the liquid area
+                    if (b.y > surfY && b.y < h) {
+                        const alpha = clamp((b.y - surfY) / (h * 0.08), 0, 1) * 0.35;
+                        ctx.beginPath();
+                        ctx.arc(bx, b.y, b.r, 0, Math.PI * 2);
+                        ctx.strokeStyle = `rgba(255,220,120,${alpha})`;
+                        ctx.lineWidth = 0.8;
+                        ctx.stroke();
+                        // Tiny highlight
+                        ctx.beginPath();
+                        ctx.arc(bx - b.r * 0.3, b.y - b.r * 0.3, b.r * 0.25, 0, Math.PI * 2);
+                        ctx.fillStyle = `rgba(255,255,255,${alpha * 0.7})`;
+                        ctx.fill();
+                    }
+                }
+            }
+
+            function tick(timestamp) {
+                if (!state.lastTime) state.lastTime = timestamp;
+                const dt = Math.min(0.033, (timestamp - state.lastTime) / 1000);
+                state.lastTime = timestamp;
+                updatePhysics(dt);
+                updateDrinkLevel(dt);
+                drawLiquid(timestamp);
+                drawCondensation(dt, timestamp);
+                requestAnimationFrame(tick);
+            }
+
+            creative.addEventListener("click", requestMotionPermissionIfNeeded, { passive: true });
+            creative.addEventListener("touchstart", requestMotionPermissionIfNeeded, { passive: true });
+            window.addEventListener("deviceorientation", handleOrientation);
+            window.addEventListener("devicemotion", handleMotion);
+            window.addEventListener("resize", () => { resizeCanvas(); initBubbles(); initCondensation(); });
+
+            setCreativeSize(CONFIG.size || "300x600");
+            updateConfig();
+            setInstruction(window.isSecureContext ? "Tap to enable tilt" : "Open on HTTPS to enable tilt");
+            resizeCanvas();
+            resizeCondCanvas();
+            initBubbles();
+            initCondensation();
+            requestAnimationFrame(tick);
+        })();
+    </script>
+</body>
+
+</html>
