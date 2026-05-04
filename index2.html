@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Liquid Tilt Creative</title>
+    <style>
+        :root {
+            --creative-width: 300px;
+            --creative-height: 600px;
+            --border-radius: 18px;
+            --shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+            --panel-bg: #151515;
+            --panel-border: rgba(255, 255, 255, 0.08);
+            --text-soft: rgba(255, 255, 255, 0.72);
+            --text-muted: rgba(255, 255, 255, 0.5);
+            --accent: #f5d060;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background:
+                radial-gradient(circle at top, rgba(90, 90, 90, 0.14), transparent 35%),
+                linear-gradient(180deg, #0d0d0d 0%, #080808 100%);
+            color: #fff;
+            font-family: Arial, sans-serif;
+            padding: 24px;
+        }
+
+        .layout {
+            width: min(980px, 100%);
+            margin: 0 auto;
+            display: grid;
+            gap: 24px;
+            align-items: start;
+            justify-items: center;
+        }
+
+        .creative {
+            position: relative;
+            width: min(var(--creative-width), 92vw);
+            height: min(var(--creative-height), 80vh);
+            max-height: var(--creative-height);
+            overflow: hidden;
+            border-radius: var(--border-radius);
+            background: #0a0a0a;
+            color: white;
+            box-shadow:
+                var(--shadow),
+                0 0 0 1.5px rgba(160, 210, 255, 0.18),
+                0 0 38px 6px rgba(100, 180, 255, 0.13);
+            -webkit-user-select: none;
+            user-select: none;
+            touch-action: manipulation;
+            isolation: isolate;
+        }
+
+        .scene {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+        }
+
+        .bg-image {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .vignette {
+            position: absolute;
+            inset: 0;
+            z-index: 2;
+            background:
+                radial-gradient(ellipse at 50% 30%, rgba(0, 0, 0, 0) 30%, rgba(0, 0, 0, 0.72) 100%),
+                linear-gradient(180deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0) 30%, rgba(0, 0, 0, 0.15) 60%, rgba(0, 0, 0, 0.65) 100%);
+            pointer-events: none;
+        }
+
+        .content-overlay {
+            position: absolute;
+            inset: 0;
+            z-index: 4;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 22px 18px;
+            pointer-events: none;
+        }
+
+        .brand {
+            align-self: flex-start;
+            padding: 6px 14px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 220, 80, 0.35);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--accent);
+            -webkit-backdrop-filter: blur(6px);
+            backdrop-filter: blur(6px);
+        }
+
+        .headline-wrap {
+            margin-bottom: 22px;
+        }
+
+        .headline {
+            margin: 0 0 10px;
+            font-family: Georgia, serif;
+            font-size: 38px;
+            line-height: 0.93;
+            font-weight: 700;
+            font-style: italic;
+            letter-spacing: -0.02em;
+            text-shadow: 0 3px 18px rgba(0, 0, 0, 0.8);
+            color: #fff;
+        }
+
+        .headline em {
+            color: var(--accent);
+            font-style: normal;
+        }
+
+        .subhead {
+            margin: 0 0 16px;
+            font-size: 13px;
+            line-height: 1.45;
+            color: rgba(255, 255, 255, 0.78);
+            text-shadow: 0 1px 6px rgba(0, 0, 0, 0.6);
+            letter-spacing: 0.01em;
+        }
+
+        .cta {
+            align-self: flex-start;
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            padding: 11px 18px;
+            border-radius: 999px;
+            background: linear-gradient(135deg, rgba(220, 160, 20, 0.85), rgba(180, 110, 10, 0.75));
+            border: 1px solid rgba(255, 210, 80, 0.5);
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 13px;
+            letter-spacing: 0.07em;
+            line-height: 1;
+            backdrop-filter: blur(6px);
+            text-transform: uppercase;
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+        }
+
+        .cta-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: currentColor;
+            box-shadow: 0 0 6px currentColor;
+        }
+
+        .liquid-layer {
+            position: absolute;
+            inset: 0;
+            z-index: 3;
+            pointer-events: none;
+        }
+
+        .condensation-layer {
+            position: absolute;
+            inset: 0;
+            z-index: 8;
+            pointer-events: none;
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        .instruction {
+            position: absolute;
+            left: 50%;
+            top: 14px;
+            transform: translateX(-50%);
+            z-index: 6;
+            padding: 7px 14px;
+            border-radius: 999px;
+            background: rgba(10, 10, 10, 0.5);
+            border: 1px solid rgba(245, 200, 60, 0.3);
+            -webkit-backdrop-filter: blur(8px);
+            backdrop-filter: blur(8px);
+            color: var(--accent);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        .gloss {
+            position: absolute;
+            inset: 0;
+            z-index: 7;
+            pointer-events: none;
+            background:
+                linear-gradient(118deg,
+                    rgba(255, 220, 100, 0.09) 0%,
+                    rgba(255, 255, 255, 0.05) 10%,
+                    rgba(255, 255, 255, 0) 25%,
+                    rgba(255, 255, 255, 0) 75%,
+                    rgba(255, 200, 50, 0.07) 100%);
+            mix-blend-mode: screen;
+        }
+
+        .customise-panel {
+            width: min(980px, 100%);
+            display: grid;
+            gap: 16px;
+            padding: 18px;
+            border-radius: 22px;
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
+        }
+
+        .customise-panel[hidden] {
+            display: none;
+        }
+
+        .panel-header {
+            display: grid;
+            gap: 6px;
+        }
+
+        .panel-eyebrow {
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .panel-title {
+            margin: 0;
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .panel-copy {
+            margin: 0;
+            color: var(--text-soft);
+            line-height: 1.5;
+            font-size: 14px;
+        }
+
+        .panel-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px;
+        }
+
+        .panel-section {
+            display: grid;
+            gap: 12px;
+            padding: 16px;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .section-title {
+            margin: 0;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: #fff;
+        }
+
+        .field {
+            display: grid;
+            gap: 6px;
+        }
+
+        .field label {
+            font-size: 12px;
+            color: var(--text-soft);
+            font-weight: 700;
+        }
+
+        .field input,
+        .field select {
+            width: 100%;
+            min-height: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 10px;
+            padding: 8px 10px;
+            background: rgba(0, 0, 0, 0.28);
+            color: #fff;
+            font: inherit;
+        }
+
+        .field input[type="range"] {
+            padding: 0;
+            accent-color: var(--accent);
+        }
+
+        .field-row {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .value-chip {
+            min-width: 60px;
+            text-align: center;
+            padding: 8px 10px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .status-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .status-pill {
+            padding: 8px 12px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.06);
+            color: var(--text-soft);
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .status-pill strong {
+            color: #fff;
+        }
+
+        @media (max-width: 720px) {
+            body {
+                padding: 16px;
+            }
+
+            .panel-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .headline {
+                font-size: 34px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="layout">
+        <div class="creative" id="creative" role="img" aria-label="Liquid tilt ad creative">
+            <div class="scene">
+                <img class="bg-image" id="bgImage" src="kfc.png" alt="Creative background" />
+                <div class="vignette"></div>
+
+                <div class="content-overlay">
+                    <div class="brand">Liquid Template</div>
+
+                    <div class="headline-wrap">
+                        <h1 class="headline">Born <em>Bold.</em><br>Revealed by Tilt.</h1>
+                        <p class="subhead">
+                            Tilt your device to move the liquid and reveal the creative beneath.
+                        </p>
+
+                        <div class="cta" id="cta">
+                            <span class="cta-dot"></span>
+                            <span id="ctaTextDisplay">Tilt to Reveal</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="liquid-layer">
+                    <canvas id="liquidCanvas"></canvas>
+                </div>
+
+                <div class="condensation-layer">
+                    <canvas id="condCanvas"></canvas>
+                </div>
+
+                <div class="instruction" id="instructionText">Tap to enable tilt</div>
+                <div class="gloss"></div>
+            </div>
+        </div>
+
+        <section class="customise-panel" aria-label="Customise creative" hidden>
+            <div class="panel-header">
+                <div class="panel-eyebrow">Customise Creative</div>
+                <h2 class="panel-title">Tilt Gesture and Liquid Overlay Settings</h2>
+                <p class="panel-copy">
+                    Configure the liquid template, the CTA prompt, and the overlay coverage. Tilt is the active gesture,
+                    with desktop slider support for testing.
+                </p>
+            </div>
+
+            <div class="panel-grid">
+                <div class="panel-section">
+                    <h3 class="section-title">Gesture</h3>
+
+                    <div class="field">
+                        <label for="gestureSelect">Gesture type</label>
+                        <select id="gestureSelect">
+                            <option value="tilt">Tilt</option>
+                        </select>
+                    </div>
+
+                    <div class="field">
+                        <label for="tiltSlider">Desktop tilt test</label>
+                        <div class="field-row">
+                            <input id="tiltSlider" type="range" min="-45" max="45" value="0" />
+                            <span class="value-chip" id="tiltValue">0°</span>
+                        </div>
+                    </div>
+
+                    <div class="status-row">
+                        <div class="status-pill"><strong>Motion:</strong> <span id="motionStatus">Waiting</span></div>
+                        <div class="status-pill"><strong>Reset:</strong> Upright returns to default</div>
+                    </div>
+                </div>
+
+                <div class="panel-section">
+                    <h3 class="section-title">General Options</h3>
+
+                    <div class="field">
+                        <label for="coverageInput">Overlay coverage</label>
+                        <div class="field-row">
+                            <input id="coverageInput" type="range" min="10" max="95" value="62" />
+                            <span class="value-chip" id="coverageValue">62%</span>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label for="ctaTextInput">CTA text</label>
+                        <input id="ctaTextInput" type="text" value="Tilt to Reveal" />
+                    </div>
+
+                    <div class="field">
+                        <label for="ctaColorInput">CTA colour</label>
+                        <input id="ctaColorInput" type="color" value="#ffffff" />
+                    </div>
+
+                    <div class="field">
+                        <label for="animationColorInput">Animation colour</label>
+                        <input id="animationColorInput" type="color" value="#b86a00" />
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        (() => {
+            const CONFIG = {
+                size: "300x600",
+                backgroundImage: "kfc.png",
+                gesture: "tilt",
+                overlayCoverage: 62,
+                ctaText: "Tilt to Reveal",
+                ctaColor: "#ffffff",
+                animationColor: "#b86a00",
+                foamColor: "#f5f0e8"
+            };
+
+            const creative = document.getElementById("creative");
+            const bgImage = document.getElementById("bgImage");
+            const cta = document.getElementById("cta");
+            const ctaTextDisplay = document.getElementById("ctaTextDisplay");
+            const instructionText = document.getElementById("instructionText");
+            const motionStatus = document.getElementById("motionStatus");
+
+            const gestureSelect = document.getElementById("gestureSelect");
+            const tiltSlider = document.getElementById("tiltSlider");
+            const tiltValue = document.getElementById("tiltValue");
+            const coverageInput = document.getElementById("coverageInput");
+            const coverageValue = document.getElementById("coverageValue");
+            const ctaTextInput = document.getElementById("ctaTextInput");
+            const ctaColorInput = document.getElementById("ctaColorInput");
+            const animationColorInput = document.getElementById("animationColorInput");
+
+            const canvas = document.getElementById("liquidCanvas");
+            const ctx = canvas.getContext("2d");
+            const condCanvas = document.getElementById("condCanvas");
+            const condCtx = condCanvas.getContext("2d");
+
+            const state = {
+                width: 300,
+                height: 600,
+                overlayCoverage: 0.62,
+                targetTiltX: 0,
+                targetTiltY: 0,
+                tiltX: 0,
+                tiltY: 0,
+                velocityX: 0,
+                velocityY: 0,
+                smoothedAngle: 0,
+                smoothedForward: 0,
+                currentReveal: 0,
+                lastTime: 0,
+                permissionRequested: false,
+                motionEnabled: false,
+                motionDenied: false,
+                lastOrientationEventAt: 0,
+                baselineGamma: null,
+                baselineBeta: null,
+                baselineAccelX: null,
+                baselineAccelY: null,
+                beerColor: "#b86a00",
+                foamColor: "#f5f0e8",
+                ctaText: "Tilt to Reveal",
+                ctaColor: "#ffffff",
+                gesture: "tilt",
+                usingDesktopSlider: false,
+                showBubbles: true,
+                bubbles: [],
+                drops: [],
+                drips: []
+            };
+
+            function clamp(value, min, max) {
+                return Math.max(min, Math.min(max, value));
+            }
+
+            function lerp(a, b, t) {
+                return a + (b - a) * t;
+            }
+
+            function hexToRgb(hex) {
+                const raw = hex.replace("#", "");
+                const full = raw.length === 3 ? raw.split("").map(char => char + char).join("") : raw;
+                const num = parseInt(full, 16);
+                return { r: (num >> 16) & 255, g: (num >> 8) & 255, b: num & 255 };
+            }
+
+            function rgba(hex, alpha) {
+                const { r, g, b } = hexToRgb(hex);
+                return `rgba(${r},${g},${b},${alpha})`;
+            }
+
+            function shiftColor(hex, amount) {
+                const { r, g, b } = hexToRgb(hex);
+                const shift = channel => clamp(Math.round(channel + channel * amount), 0, 255);
+                const toHex = channel => channel.toString(16).padStart(2, "0");
+                return `#${toHex(shift(r))}${toHex(shift(g))}${toHex(shift(b))}`;
+            }
+
+            function setInstruction(message) {
+                instructionText.textContent = message;
+            }
+
+            function setMotionStatus(message) {
+                motionStatus.textContent = message;
+            }
+
+            function setCreativeSize(value) {
+                const [w, h] = value.split("x").map(Number);
+                state.width = w;
+                state.height = h;
+                creative.style.setProperty("--creative-width", `${w}px`);
+                creative.style.setProperty("--creative-height", `${h}px`);
+                resizeCanvas();
+                initBubbles();
+                initCondensation();
+            }
+
+            function applyConfig() {
+                state.gesture = gestureSelect.value;
+                state.overlayCoverage = clamp(Number(coverageInput.value) / 100, 0.1, 0.95);
+                state.ctaText = ctaTextInput.value.trim() || "Tilt to Reveal";
+                state.ctaColor = ctaColorInput.value;
+                state.beerColor = animationColorInput.value;
+                state.foamColor = CONFIG.foamColor;
+
+                ctaTextDisplay.textContent = state.ctaText;
+                cta.style.color = state.ctaColor;
+                bgImage.src = CONFIG.backgroundImage;
+
+                coverageValue.textContent = `${Math.round(state.overlayCoverage * 100)}%`;
+            }
+
+            function resetCalibration() {
+                state.baselineGamma = null;
+                state.baselineBeta = null;
+                state.baselineAccelX = null;
+                state.baselineAccelY = null;
+            }
+
+            async function requestMotionPermissionIfNeeded() {
+                if (state.motionEnabled || state.motionDenied || state.gesture !== "tilt") return;
+
+                if (!window.isSecureContext) {
+                    setInstruction("Open on HTTPS to enable tilt");
+                    setMotionStatus("HTTPS required");
+                    return;
+                }
+
+                state.permissionRequested = true;
+
+                try {
+                    let orientationGranted = true;
+                    let motionGranted = true;
+
+                    if (typeof DeviceOrientationEvent !== "undefined" &&
+                        typeof DeviceOrientationEvent.requestPermission === "function") {
+                        orientationGranted = (await DeviceOrientationEvent.requestPermission()) === "granted";
+                    }
+
+                    if (typeof DeviceMotionEvent !== "undefined" &&
+                        typeof DeviceMotionEvent.requestPermission === "function") {
+                        motionGranted = (await DeviceMotionEvent.requestPermission()) === "granted";
+                    }
+
+                    if (!orientationGranted && !motionGranted) {
+                        state.motionDenied = true;
+                        setInstruction("Motion access denied");
+                        setMotionStatus("Denied");
+                        return;
+                    }
+
+                    state.motionEnabled = true;
+                    resetCalibration();
+                    setInstruction("Tilt to reveal");
+                    setMotionStatus("Enabled");
+                } catch (error) {
+                    state.permissionRequested = false;
+                    setInstruction("Tap again to enable tilt");
+                    setMotionStatus("Retry");
+                }
+            }
+
+            function handleOrientation(event) {
+                if (state.gesture !== "tilt") return;
+                if (typeof event.gamma !== "number" || typeof event.beta !== "number") return;
+
+                if (state.baselineGamma === null) {
+                    state.baselineGamma = event.gamma;
+                    state.baselineBeta = event.beta;
+                }
+
+                state.lastOrientationEventAt = performance.now();
+                state.motionEnabled = true;
+                state.usingDesktopSlider = false;
+                setInstruction("Tilt to reveal");
+                setMotionStatus("Live");
+
+                const gammaDelta = event.gamma - state.baselineGamma;
+                const betaDelta = event.beta - state.baselineBeta;
+
+                state.targetTiltX = clamp(gammaDelta / 28, -1, 1);
+                state.targetTiltY = clamp(betaDelta / 30, -1, 1);
+            }
+
+            function handleMotion(event) {
+                if (state.gesture !== "tilt") return;
+                if (performance.now() - state.lastOrientationEventAt < 180) return;
+
+                const accel = event.accelerationIncludingGravity;
+                if (!accel) return;
+                if (typeof accel.x !== "number" || typeof accel.y !== "number") return;
+
+                if (state.baselineAccelX === null) {
+                    state.baselineAccelX = accel.x;
+                    state.baselineAccelY = accel.y;
+                }
+
+                state.motionEnabled = true;
+                state.usingDesktopSlider = false;
+                setInstruction("Tilt to reveal");
+                setMotionStatus("Live");
+
+                const xDelta = accel.x - state.baselineAccelX;
+                const yDelta = accel.y - state.baselineAccelY;
+
+                state.targetTiltX = clamp(xDelta / 6.5, -1, 1);
+                state.targetTiltY = clamp((-yDelta) / 6.5, -1, 1);
+            }
+
+            function initBubbles() {
+                state.bubbles = [];
+                const w = creative.clientWidth;
+                const h = creative.clientHeight;
+                const count = Math.round((w * h) / 4200);
+
+                for (let index = 0; index < count; index++) {
+                    state.bubbles.push({
+                        x: Math.random() * w,
+                        y: Math.random() * h,
+                        r: 0.8 + Math.random() * 2.8,
+                        speed: 12 + Math.random() * 28,
+                        wobble: Math.random() * Math.PI * 2,
+                        wobbleSpeed: 0.5 + Math.random() * 1.2
+                    });
+                }
+            }
+
+            function initCondensation() {
+                const w = creative.clientWidth;
+                const h = creative.clientHeight;
+
+                state.drops = [];
+                const dropCount = Math.round((w * h) / 1400);
+                for (let index = 0; index < dropCount; index++) {
+                    state.drops.push({
+                        x: Math.random() * w,
+                        y: Math.random() * h,
+                        r: 1.2 + Math.random() * 5.5,
+                        alpha: 0.06 + Math.random() * 0.22,
+                        rx: 1 + Math.random() * 0.6,
+                        ry: 1 + Math.random() * 0.4
+                    });
+                }
+
+                state.drips = [];
+                const dripCount = Math.round(w / 22);
+                for (let index = 0; index < dripCount; index++) {
+                    state.drips.push({
+                        x: 6 + Math.random() * (w - 12),
+                        y: Math.random() * h,
+                        r: 2 + Math.random() * 3.5,
+                        speed: 6 + Math.random() * 18,
+                        trail: [],
+                        alpha: 0.10 + Math.random() * 0.18
+                    });
+                }
+            }
+
+            function resizeCanvas() {
+                const rect = creative.getBoundingClientRect();
+                const ratio = Math.max(1, window.devicePixelRatio || 1);
+
+                canvas.width = Math.round(rect.width * ratio);
+                canvas.height = Math.round(rect.height * ratio);
+                canvas.style.width = `${rect.width}px`;
+                canvas.style.height = `${rect.height}px`;
+                ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+
+                condCanvas.width = Math.round(rect.width * ratio);
+                condCanvas.height = Math.round(rect.height * ratio);
+                condCanvas.style.width = `${rect.width}px`;
+                condCanvas.style.height = `${rect.height}px`;
+                condCtx.setTransform(ratio, 0, 0, ratio, 0, 0);
+            }
+
+            function getRevealAmount() {
+                const horizontal = Math.abs(state.smoothedAngle);
+                const vertical = Math.abs(state.smoothedForward) * 0.55;
+                const combined = clamp(horizontal + vertical, 0, 1);
+                return clamp((combined - 0.04) / 0.78, 0, 1);
+            }
+
+            function getEffectiveCoverage() {
+                const minCoverage = Math.max(0.05, state.overlayCoverage * 0.08);
+                return lerp(state.overlayCoverage, minCoverage, state.currentReveal);
+            }
+
+            function updatePhysics(dt) {
+                const spring = 11;
+                const damping = 0.8;
+
+                state.velocityX += (state.targetTiltX - state.tiltX) * spring * dt;
+                state.velocityY += (state.targetTiltY - state.tiltY) * spring * dt;
+                state.velocityX *= damping;
+                state.velocityY *= damping;
+
+                state.tiltX += state.velocityX * dt * 60;
+                state.tiltY += state.velocityY * dt * 60;
+
+                if (Math.abs(state.targetTiltX) < 0.02) {
+                    state.tiltX = lerp(state.tiltX, 0, Math.min(1, dt * 5));
+                }
+
+                if (Math.abs(state.targetTiltY) < 0.02) {
+                    state.tiltY = lerp(state.tiltY, 0, Math.min(1, dt * 5));
+                }
+
+                state.smoothedAngle = lerp(state.smoothedAngle, state.tiltX, Math.min(1, dt * 8));
+                state.smoothedForward = lerp(state.smoothedForward, state.tiltY, Math.min(1, dt * 8));
+                state.currentReveal = lerp(state.currentReveal, getRevealAmount(), Math.min(1, dt * 10));
+            }
+
+            function drawCondensation(dt, timestamp) {
+                const w = creative.clientWidth;
+                const h = creative.clientHeight;
+                const effectiveCoverage = getEffectiveCoverage();
+
+                condCtx.clearRect(0, 0, w, h);
+
+                const edgeMist = condCtx.createRadialGradient(w * 0.5, h * 0.5, h * 0.25, w * 0.5, h * 0.5, h * 0.72);
+                edgeMist.addColorStop(0, "rgba(160,210,255,0.00)");
+                edgeMist.addColorStop(1, "rgba(140,200,255,0.09)");
+                condCtx.fillStyle = edgeMist;
+                condCtx.fillRect(0, 0, w, h);
+
+                for (const drop of state.drops) {
+                    condCtx.save();
+                    condCtx.translate(drop.x, drop.y);
+                    condCtx.scale(drop.rx, drop.ry);
+                    const grad = condCtx.createRadialGradient(-drop.r * 0.2, -drop.r * 0.3, drop.r * 0.05, 0, 0, drop.r);
+                    grad.addColorStop(0, `rgba(220,240,255,${drop.alpha * 1.4})`);
+                    grad.addColorStop(0.5, `rgba(180,220,255,${drop.alpha})`);
+                    grad.addColorStop(1, `rgba(140,200,255,${drop.alpha * 0.2})`);
+                    condCtx.beginPath();
+                    condCtx.arc(0, 0, drop.r, 0, Math.PI * 2);
+                    condCtx.fillStyle = grad;
+                    condCtx.fill();
+                    condCtx.beginPath();
+                    condCtx.arc(-drop.r * 0.28, -drop.r * 0.32, drop.r * 0.26, 0, Math.PI * 2);
+                    condCtx.fillStyle = `rgba(255,255,255,${drop.alpha * 0.7})`;
+                    condCtx.fill();
+                    condCtx.restore();
+                }
+
+                for (const drip of state.drips) {
+                    drip.y += drip.speed * dt;
+                    drip.trail.push({ x: drip.x + Math.sin(drip.y * 0.04) * 1.2, y: drip.y });
+                    if (drip.trail.length > 28) drip.trail.shift();
+
+                    if (drip.y > h + drip.r * 2) {
+                        drip.y = -drip.r * 2;
+                        drip.x = 6 + Math.random() * (w - 12);
+                        drip.trail = [];
+                    }
+
+                    if (drip.trail.length > 2) {
+                        condCtx.beginPath();
+                        condCtx.moveTo(drip.trail[0].x, drip.trail[0].y);
+                        for (let index = 1; index < drip.trail.length; index++) {
+                            condCtx.lineTo(drip.trail[index].x, drip.trail[index].y);
+                        }
+                        condCtx.strokeStyle = `rgba(180,220,255,${drip.alpha * 0.45})`;
+                        condCtx.lineWidth = drip.r * 0.45;
+                        condCtx.lineCap = "round";
+                        condCtx.stroke();
+                    }
+                }
+
+                const foamZoneY = h * (1 - effectiveCoverage) - h * 0.07;
+                const time = timestamp * 0.0006;
+                for (let index = 0; index < 4; index++) {
+                    const px = w * (0.15 + index * 0.22) + Math.sin(time + index * 1.4) * 14;
+                    const py = foamZoneY + Math.cos(time * 0.8 + index) * 8 - 12;
+                    const pr = 18 + Math.sin(time * 1.1 + index * 0.9) * 6;
+                    const alpha = 0.04 + Math.sin(time * 0.7 + index * 2.1) * 0.02;
+                    const mistGrad = condCtx.createRadialGradient(px, py, 0, px, py, pr);
+                    mistGrad.addColorStop(0, `rgba(200,230,255,${alpha})`);
+                    mistGrad.addColorStop(1, "rgba(200,230,255,0)");
+                    condCtx.beginPath();
+                    condCtx.arc(px, py, pr, 0, Math.PI * 2);
+                    condCtx.fillStyle = mistGrad;
+                    condCtx.fill();
+                }
+            }
+
+            function drawLiquid(timestamp) {
+                const w = creative.clientWidth;
+                const h = creative.clientHeight;
+                const effectiveCoverage = getEffectiveCoverage();
+                const baseCoverageH = h * effectiveCoverage;
+                const baseY = h - baseCoverageH;
+                const hTilt = state.smoothedAngle * (w * 0.12);
+                const vTilt = state.smoothedForward * (h * 0.04);
+                const time = timestamp * 0.0018;
+                const waveAmp = Math.max(6, h * 0.013) + Math.abs(state.smoothedAngle) * 20 + Math.abs(state.smoothedForward) * 10;
+
+                ctx.clearRect(0, 0, w, h);
+
+                const topLeftY = baseY + vTilt - hTilt * 0.24;
+                const topRightY = baseY + vTilt + hTilt * 0.24;
+
+                const waveSurface = x => {
+                    const progress = x / w;
+                    const slopeY = lerp(topLeftY, topRightY, progress);
+                    return slopeY
+                        + Math.sin(time + x * 0.026) * waveAmp * 0.44
+                        + Math.cos(time * 1.35 + x * 0.013) * waveAmp * 0.20
+                        + Math.sin(time * 0.7 + x * 0.052) * waveAmp * 0.10;
+                };
+
+                const beerGrad = ctx.createLinearGradient(0, baseY, 0, h);
+                beerGrad.addColorStop(0, rgba(shiftColor(state.beerColor, 0.05), 0.94));
+                beerGrad.addColorStop(0.18, rgba(shiftColor(state.beerColor, 0.50), 1));
+                beerGrad.addColorStop(0.5, rgba(shiftColor(state.beerColor, 0.68), 1));
+                beerGrad.addColorStop(0.82, rgba(shiftColor(state.beerColor, 0.52), 1));
+                beerGrad.addColorStop(1, rgba(shiftColor(state.beerColor, 0.36), 1));
+
+                ctx.beginPath();
+                ctx.moveTo(0, h);
+                ctx.lineTo(0, waveSurface(0));
+                for (let x = 6; x <= w; x += 6) {
+                    ctx.lineTo(x, waveSurface(x));
+                }
+                ctx.lineTo(w, h);
+                ctx.closePath();
+                ctx.fillStyle = beerGrad;
+                ctx.fill();
+
+                const highlightGrad = ctx.createLinearGradient(0, 0, w, 0);
+                highlightGrad.addColorStop(0, "rgba(255,210,90,0)");
+                highlightGrad.addColorStop(0.18, "rgba(255,230,130,0.32)");
+                highlightGrad.addColorStop(0.5, "rgba(255,235,140,0.16)");
+                highlightGrad.addColorStop(0.82, "rgba(255,215,100,0.26)");
+                highlightGrad.addColorStop(1, "rgba(255,210,90,0)");
+                ctx.fillStyle = highlightGrad;
+                ctx.fillRect(0, baseY - 24, w, h - baseY + 24);
+
+                const foamH = Math.max(18, Math.max(50, h * 0.13) + Math.abs(state.smoothedAngle) * 10);
+                const { r, g, b } = hexToRgb(state.foamColor);
+                const tiltMag = Math.min(1, Math.abs(state.smoothedAngle) * 3.5);
+
+                const foamTop = x => {
+                    const base = waveSurface(x) - foamH;
+                    return base
+                        + Math.sin(x * 0.04 + time * 0.18) * foamH * 0.07 * tiltMag
+                        + Math.sin(x * 0.085 + time * 0.12 + 1.4) * foamH * 0.04 * tiltMag
+                        + Math.sin(x * 0.16 + time * 0.09 + 2.8) * foamH * 0.02 * tiltMag;
+                };
+
+                ctx.beginPath();
+                for (let x = 0; x <= w; x += 3) {
+                    const y = foamTop(x);
+                    if (x === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                }
+                for (let x = w; x >= 0; x -= 3) {
+                    ctx.lineTo(x, waveSurface(x) + 2);
+                }
+                ctx.closePath();
+                ctx.fillStyle = `rgb(${r},${g},${b})`;
+                ctx.fill();
+
+                const foamGrad = ctx.createLinearGradient(0, foamTop(w / 2) - 4, 0, waveSurface(w / 2) + 2);
+                foamGrad.addColorStop(0, "rgba(255,255,255,0.8)");
+                foamGrad.addColorStop(0.18, "rgba(255,255,255,0.3)");
+                foamGrad.addColorStop(0.82, "rgba(185,165,138,0.12)");
+                foamGrad.addColorStop(1, "rgba(160,138,108,0.35)");
+
+                ctx.beginPath();
+                for (let x = 0; x <= w; x += 3) {
+                    const y = foamTop(x);
+                    if (x === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                }
+                for (let x = w; x >= 0; x -= 3) {
+                    ctx.lineTo(x, waveSurface(x) + 2);
+                }
+                ctx.closePath();
+                ctx.fillStyle = foamGrad;
+                ctx.fill();
+
+                ctx.beginPath();
+                for (let x = 0; x <= w; x += 3) {
+                    const y = foamTop(x);
+                    if (x === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                }
+                ctx.strokeStyle = "rgba(255,255,255,0.72)";
+                ctx.lineWidth = 2.4;
+                ctx.lineJoin = "round";
+                ctx.stroke();
+
+                const dt = 0.016;
+                for (const bubble of state.bubbles) {
+                    bubble.y -= bubble.speed * dt;
+                    bubble.wobble += bubble.wobbleSpeed * dt;
+                    const bubbleX = bubble.x + Math.sin(bubble.wobble) * 2.5;
+                    const surfaceY = waveSurface(clamp(bubbleX, 0, w));
+
+                    if (bubble.y < surfaceY - bubble.r) {
+                        bubble.y = h + bubble.r;
+                        bubble.x = Math.random() * w;
+                    }
+
+                    if (bubble.y > surfaceY && bubble.y < h) {
+                        const alpha = clamp((bubble.y - surfaceY) / (h * 0.08), 0, 1) * 0.35;
+                        ctx.beginPath();
+                        ctx.arc(bubbleX, bubble.y, bubble.r, 0, Math.PI * 2);
+                        ctx.strokeStyle = `rgba(255,220,120,${alpha})`;
+                        ctx.lineWidth = 0.8;
+                        ctx.stroke();
+                    }
+                }
+            }
+
+            function tick(timestamp) {
+                if (!state.lastTime) state.lastTime = timestamp;
+                const dt = Math.min(0.033, (timestamp - state.lastTime) / 1000);
+                state.lastTime = timestamp;
+
+                updatePhysics(dt);
+                drawLiquid(timestamp);
+                drawCondensation(dt, timestamp);
+                requestAnimationFrame(tick);
+            }
+
+            gestureSelect.addEventListener("change", () => {
+                state.gesture = gestureSelect.value;
+                resetCalibration();
+                applyConfig();
+            });
+
+            coverageInput.addEventListener("input", applyConfig);
+            ctaTextInput.addEventListener("input", applyConfig);
+            ctaColorInput.addEventListener("input", applyConfig);
+            animationColorInput.addEventListener("input", applyConfig);
+
+            tiltSlider.addEventListener("input", event => {
+                if (state.motionEnabled) return;
+                const value = Number(event.target.value);
+                state.usingDesktopSlider = true;
+                state.targetTiltX = clamp(value / 45, -1, 1);
+                state.targetTiltY = 0;
+                tiltValue.textContent = `${value}°`;
+                setMotionStatus("Desktop slider");
+                setInstruction("Desktop tilt preview");
+            });
+
+            creative.addEventListener("click", requestMotionPermissionIfNeeded, { passive: true });
+            creative.addEventListener("touchstart", requestMotionPermissionIfNeeded, { passive: true });
+            window.addEventListener("deviceorientation", handleOrientation);
+            window.addEventListener("devicemotion", handleMotion);
+            window.addEventListener("resize", () => {
+                resizeCanvas();
+                initBubbles();
+                initCondensation();
+            });
+
+            gestureSelect.value = CONFIG.gesture;
+            coverageInput.value = CONFIG.overlayCoverage;
+            ctaTextInput.value = CONFIG.ctaText;
+            ctaColorInput.value = CONFIG.ctaColor;
+            animationColorInput.value = CONFIG.animationColor;
+
+            setCreativeSize(CONFIG.size);
+            applyConfig();
+            resizeCanvas();
+            initBubbles();
+            initCondensation();
+
+            if (!window.isSecureContext) {
+                setInstruction("Open on HTTPS to enable tilt");
+                setMotionStatus("HTTPS required");
+            } else {
+                setInstruction("Tap to enable tilt");
+                setMotionStatus("Waiting");
+            }
+
+            requestAnimationFrame(tick);
+        })();
+    </script>
+</body>
+
+</html>
