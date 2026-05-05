@@ -184,7 +184,7 @@
         .instruction {
             position: absolute;
             left: 50%;
-            top: 14px;
+            top: 34px;
             transform: translateX(-50%);
             z-index: 6;
             padding: 7px 14px;
@@ -214,7 +214,7 @@
         .condensation-layer {
             position: absolute;
             inset: 0;
-            z-index: 8;
+            z-index: 3;
             pointer-events: none;
         }
 
@@ -657,10 +657,10 @@
                 const angle = clamp(state.smoothedAngle, -1, 1);
                 const forward = clamp(state.tiltY, -1, 1);
                 const absAngle = Math.abs(angle);
-                const sideBias = angle * w * 0.25;
-                const tiltStrength = angle * h * 0.18;
+                const sideBias = angle * w * 0.21;
+                const tiltStrength = angle * h * 0.145;
                 const forwardOffset = forward * h * 0.04;
-                const tiltDrop = absAngle * h * 0.035;
+                const tiltDrop = absAngle * h * 0.024;
                 const baseY = clamp(h - baseCoverageH + forwardOffset + tiltDrop, h * 0.03, h - 10);
                 const topLeftY = clamp(baseY + tiltStrength, h * 0.02, h - 8);
                 const topRightY = clamp(baseY - tiltStrength, h * 0.02, h - 8);
@@ -672,14 +672,14 @@
                     const progress = x / w;
                     const slopeY = lerp(topLeftY, topRightY, progress);
                     const normalized = (x - massCenterX) / (w * 0.5);
-                    const redistribution = ((normalized * normalized) - (1 / 3)) * absAngle * h * 0.11;
-                    const edgeCompression = Math.pow(Math.min(1, Math.abs(normalized)), 1.35) * absAngle * h * 0.018;
+                    const redistribution = ((normalized * normalized) - (1 / 3)) * absAngle * h * 0.085;
+                    const edgeCompression = Math.pow(Math.min(1, Math.abs(normalized)), 1.35) * absAngle * h * 0.014;
                     return slopeY
                         + redistribution
                         + edgeCompression
-                        + Math.sin(time + x * 0.026) * waveAmp * 0.34
-                        + Math.cos(time * 1.35 + x * 0.013) * waveAmp * 0.17
-                        + Math.sin(time * 0.7 + x * 0.052) * waveAmp * 0.08;
+                        + Math.sin(time + x * 0.026) * waveAmp * 0.26
+                        + Math.cos(time * 1.35 + x * 0.013) * waveAmp * 0.13
+                        + Math.sin(time * 0.7 + x * 0.052) * waveAmp * 0.06;
                 };
 
                 return {
@@ -762,8 +762,8 @@
                     h,
                     Math.max(w * 0.9, h * 0.95)
                 );
-                bodyGlow.addColorStop(0, "rgba(255,230,130,0.26)");
-                bodyGlow.addColorStop(0.42, "rgba(255,206,80,0.12)");
+                bodyGlow.addColorStop(0, "rgba(255,230,130,0.18)");
+                bodyGlow.addColorStop(0.42, "rgba(255,206,80,0.08)");
                 bodyGlow.addColorStop(1, "rgba(255,206,80,0)");
 
                 ctx.save();
@@ -784,18 +784,18 @@
                 ctx.fillRect(0, baseY - 20, w, h - baseY + 20);
                 ctx.restore();
 
-                const foamH = Math.max(14, Math.min(baseCoverageH * 0.42, (h * 0.115 + absAngle * h * 0.03) * Math.max(0.32, state.remainingBeer)));
+                const foamH = Math.max(10, Math.min(baseCoverageH * 0.28, (h * 0.082 + absAngle * h * 0.018) * Math.max(0.28, state.remainingBeer)));
                 const { r: fr, g: fg, b: fb } = hexToRgb(state.foamColor);
                 const tiltMag = Math.min(1, absAngle * 3.5);
                 const foamTop = (x) => {
                     const base = waveSurface(x) - foamH;
                     const normalized = (x - massCenterX) / (w * 0.5);
-                    const shoulder = ((normalized * normalized) - (1 / 3)) * foamH * 0.18 * tiltMag;
+                    const shoulder = ((normalized * normalized) - (1 / 3)) * foamH * 0.12 * tiltMag;
                     return base
                         + shoulder
-                        + Math.sin(x * 0.040 + time * 0.18 + sideBias * 0.01) * foamH * 0.06 * tiltMag
-                        + Math.sin(x * 0.085 + time * 0.12 + 1.4) * foamH * 0.035 * tiltMag
-                        + Math.sin(x * 0.160 + time * 0.09 + 2.8) * foamH * 0.018 * tiltMag;
+                        + Math.sin(x * 0.040 + time * 0.18 + sideBias * 0.01) * foamH * 0.045 * tiltMag
+                        + Math.sin(x * 0.085 + time * 0.12 + 1.4) * foamH * 0.025 * tiltMag
+                        + Math.sin(x * 0.160 + time * 0.09 + 2.8) * foamH * 0.014 * tiltMag;
                 };
 
                 // ── 1. Solid cream body ──────────────────────────────────────────
