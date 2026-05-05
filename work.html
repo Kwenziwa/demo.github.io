@@ -614,7 +614,7 @@
                 setInstruction("Tilt to drink");
                 const gammaDelta = clamp((e.gamma - state.baselineGamma) / 30, -1, 1);
                 const betaDelta = clamp((e.beta - state.baselineBeta) / 32, -1, 1);
-                state.targetTiltX = applyDeadzone(gammaDelta, 0.08);
+                state.targetTiltX = -applyDeadzone(gammaDelta, 0.08);
                 state.targetTiltY = applyDeadzone(betaDelta, 0.12);
             }
 
@@ -635,7 +635,7 @@
                 setInstruction("Tilt to drink");
                 const xDelta = clamp((x - state.baselineAccelX) / 6.5, -1, 1);
                 const yDelta = clamp((-(y - state.baselineAccelY)) / 6.5, -1, 1);
-                state.targetTiltX = applyDeadzone(xDelta, 0.08);
+                state.targetTiltX = -applyDeadzone(xDelta, 0.08);
                 state.targetTiltY = applyDeadzone(yDelta, 0.12);
             }
 

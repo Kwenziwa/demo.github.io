@@ -670,7 +670,7 @@
                 const gammaDelta = event.gamma - state.baselineGamma;
                 const betaDelta = event.beta - state.baselineBeta;
 
-                state.targetTiltX = clamp(gammaDelta / 28, -1, 1);
+                state.targetTiltX = clamp((-gammaDelta) / 28, -1, 1);
                 state.targetTiltY = clamp(betaDelta / 30, -1, 1);
             }
 
@@ -695,7 +695,7 @@
                 const xDelta = accel.x - state.baselineAccelX;
                 const yDelta = accel.y - state.baselineAccelY;
 
-                state.targetTiltX = clamp(xDelta / 6.5, -1, 1);
+                state.targetTiltX = clamp((-xDelta) / 6.5, -1, 1);
                 state.targetTiltY = clamp((-yDelta) / 6.5, -1, 1);
             }
 
@@ -1031,7 +1031,7 @@
                 if (state.motionEnabled) return;
                 const value = Number(event.target.value);
                 state.usingDesktopSlider = true;
-                state.targetTiltX = clamp(value / 45, -1, 1);
+                state.targetTiltX = clamp((-value) / 45, -1, 1);
                 state.targetTiltY = 0;
                 tiltValue.textContent = `${value}°`;
                 setMotionStatus("Desktop slider");
