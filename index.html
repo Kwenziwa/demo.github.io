@@ -314,6 +314,10 @@
                 motionEnabled: false,
                 motionDenied: false,
                 lastOrientationEventAt: 0,
+                baselineGamma: null,
+                baselineBeta: null,
+                baselineAccelX: null,
+                baselineAccelY: null,
                 beerColor: "#b86a00",
                 foamColor: "#f5f0e8",
                 ctaText: "Tilt to Pour",
@@ -518,6 +522,18 @@
 
             function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
             function lerp(a, b, t) { return a + (b - a) * t; }
+            function applyDeadzone(value, threshold) {
+                if (Math.abs(value) <= threshold) return 0;
+                const direction = Math.sign(value);
+                return direction * ((Math.abs(value) - threshold) / (1 - threshold));
+            }
+
+            function resetTiltCalibration() {
+                state.baselineGamma = null;
+                state.baselineBeta = null;
+                state.baselineAccelX = null;
+                state.baselineAccelY = null;
+            }
 
             function hexToRgb(hex) {
                 const h = hex.replace("#", "");
@@ -558,6 +574,7 @@
                 }
 
                 state.permissionRequested = true;
+                resetTiltCalibration();
 
                 try {
                     let orientationGranted = true;
@@ -590,11 +607,18 @@
 
             function handleOrientation(e) {
                 if (typeof e.gamma !== "number" || typeof e.beta !== "number") return;
+                if (state.baselineGamma === null || state.baselineBeta === null) {
+                    state.baselineGamma = e.gamma;
+                    state.baselineBeta = e.beta;
+                }
+
                 state.lastOrientationEventAt = performance.now();
                 state.motionEnabled = true;
                 setInstruction("Tilt to drink");
-                state.targetTiltX = clamp(e.gamma / 35, -1, 1);
-                state.targetTiltY = clamp((e.beta - 45) / 45, -1, 1);
+                const gammaDelta = clamp((e.gamma - state.baselineGamma) / 30, -1, 1);
+                const betaDelta = clamp((e.beta - state.baselineBeta) / 32, -1, 1);
+                state.targetTiltX = applyDeadzone(gammaDelta, 0.08);
+                state.targetTiltY = applyDeadzone(betaDelta, 0.12);
             }
 
             function handleMotion(e) {
@@ -604,12 +628,18 @@
 
                 const x = typeof accel.x === "number" ? accel.x : 0;
                 const y = typeof accel.y === "number" ? accel.y : 0;
+                if (state.baselineAccelX === null || state.baselineAccelY === null) {
+                    state.baselineAccelX = x;
+                    state.baselineAccelY = y;
+                }
 
                 state.motionEnabled = true;
                 state.useDeviceMotion = true;
                 setInstruction("Tilt to drink");
-                state.targetTiltX = clamp(x / 7, -1, 1);
-                state.targetTiltY = clamp(((-y) - 4.5) / 4.5, -1, 1);
+                const xDelta = clamp((x - state.baselineAccelX) / 6.5, -1, 1);
+                const yDelta = clamp((-(y - state.baselineAccelY)) / 6.5, -1, 1);
+                state.targetTiltX = applyDeadzone(xDelta, 0.08);
+                state.targetTiltY = applyDeadzone(yDelta, 0.12);
             }
 
             function updatePhysics(dt) {
@@ -633,7 +663,7 @@
 
             function getDrinkTiltAmount() {
                 const sidewaysTilt = Math.abs(state.smoothedAngle);
-                const forwardTilt = clamp(-state.tiltY, 0, 1);
+                const forwardTilt = clamp(applyDeadzone(-state.tiltY, 0.18), 0, 1);
                 return clamp(Math.max(sidewaysTilt * 0.9, forwardTilt), 0, 1);
             }
 
