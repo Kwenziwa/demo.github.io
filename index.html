@@ -613,8 +613,8 @@
             }
 
             function updatePhysics(dt) {
-                const spring = 10;
-                const damping = 0.78;
+                const spring = 7.5;
+                const damping = 0.84;
 
                 state.velocityX += (state.targetTiltX - state.tiltX) * spring * dt;
                 state.velocityY += (state.targetTiltY - state.tiltY) * spring * dt;
@@ -624,11 +624,11 @@
                 state.tiltY += state.velocityY * dt * 60;
 
                 if (Math.abs(state.targetTiltX) < 0.02)
-                    state.tiltX = lerp(state.tiltX, 0, Math.min(1, dt * 5));
+                    state.tiltX = lerp(state.tiltX, 0, Math.min(1, dt * 3.5));
                 if (Math.abs(state.targetTiltY) < 0.02)
-                    state.tiltY = lerp(state.tiltY, 0, Math.min(1, dt * 5));
+                    state.tiltY = lerp(state.tiltY, 0, Math.min(1, dt * 3.5));
 
-                state.smoothedAngle = lerp(state.smoothedAngle, state.tiltX, Math.min(1, dt * 7));
+                state.smoothedAngle = lerp(state.smoothedAngle, state.tiltX, Math.min(1, dt * 4.5));
             }
 
             function getDrinkTiltAmount() {
@@ -641,11 +641,11 @@
                 if (state.remainingBeer <= 0) return;
 
                 const drinkTilt = getDrinkTiltAmount();
-                const drinkThreshold = 0.3;
+                const drinkThreshold = 0.38;
                 const drinkStrength = clamp((drinkTilt - drinkThreshold) / (1 - drinkThreshold), 0, 1);
                 if (drinkStrength <= 0) return;
 
-                const drainRate = lerp(0.05, 0.34, drinkStrength);
+                const drainRate = lerp(0.02, 0.14, drinkStrength);
                 state.remainingBeer = Math.max(0, state.remainingBeer - drainRate * dt);
             }
 
