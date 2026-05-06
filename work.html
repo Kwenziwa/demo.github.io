@@ -10,7 +10,7 @@
             --creative-width: 300px;
             --creative-height: 600px;
             --cta-color: #ffffff;
-            --border-radius: 18px;
+            --border-radius: 0px;
             --shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
         }
 
@@ -19,20 +19,26 @@
             -webkit-tap-highlight-color: transparent;
         }
 
+        html,
+        body {
+            width: var(--creative-width);
+            height: var(--creative-height);
+        }
+
         body {
             margin: 0;
-            min-height: 100vh;
-            display: grid;
-            place-items: center;
+            display: block;
             background: #0d0d0d;
             font-family: 'Georgia', serif;
-            padding: 24px;
+            padding: 0;
         }
 
         .demo-wrap {
             display: grid;
             gap: 10px;
             justify-items: center;
+            width: var(--creative-width);
+            height: var(--creative-height);
         }
 
         .creative {
@@ -106,6 +112,7 @@
         }
 
         .headline-wrap {
+            margin-top: auto;
             margin-bottom: 22px;
             pointer-events: auto;
         }
@@ -138,10 +145,11 @@
         }
 
         .cta {
-            align-self: flex-start;
-            display: inline-flex;
+            display: flex;
             align-items: center;
             gap: 9px;
+            width: fit-content;
+            margin-inline: auto;
             padding: 11px 18px;
             border-radius: 999px;
             background: linear-gradient(135deg, rgba(220, 160, 20, 0.85), rgba(180, 110, 10, 0.75));
@@ -245,8 +253,6 @@
                 <div class="vignette"></div>
 
                 <div class="content-overlay">
-                    <div class="brand">Established 1876</div>
-
                     <div class="headline-wrap">
                         <h1 class="headline">Born <em>Bold.</em><br>Poured Cold.</h1>
                         <p class="subhead">
@@ -255,7 +261,7 @@
 
                         <div class="cta" id="cta">
                             <span class="cta-dot"></span>
-                            <span id="ctaTextDisplay">Tilt to Pour</span>
+                            <span id="ctaTextDisplay">Tilt to Drink</span>
                         </div>
                     </div>
                 </div>
@@ -268,7 +274,6 @@
                     <canvas id="condCanvas"></canvas>
                 </div>
 
-                <div class="instruction" id="instructionText">&#8592; Tilt to drink &#8594;</div>
                 <div class="gloss"></div>
             </div>
         </div>
@@ -279,8 +284,9 @@
         (() => {
             const CONFIG = {
                 size: "300x600",
-                ctaText: "Tilt to Pour",
+                ctaText: "Tilt to Drink",
                 beerColor: "#b86a00",
+                beerOpacity: 1,
                 foamColor: "#f5f0e8",
                 fillLevel: 62,
                 backgroundImage: "kfc.png",
@@ -319,8 +325,9 @@
                 baselineAccelX: null,
                 baselineAccelY: null,
                 beerColor: "#b86a00",
+                beerOpacity: 1,
                 foamColor: "#f5f0e8",
-                ctaText: "Tilt to Pour",
+                ctaText: "Tilt to Drink",
                 useDeviceMotion: false,
                 remainingBeer: 1,
                 // Persistent bubbles
@@ -332,6 +339,7 @@
             };
 
             function setInstruction(message) {
+                if (!instructionText) return;
                 instructionText.textContent = message;
             }
 
@@ -499,8 +507,8 @@
                 const [w, h] = value.split("x").map(Number);
                 state.width = w;
                 state.height = h;
-                creative.style.setProperty("--creative-width", w + "px");
-                creative.style.setProperty("--creative-height", h + "px");
+                document.documentElement.style.setProperty("--creative-width", w + "px");
+                document.documentElement.style.setProperty("--creative-height", h + "px");
                 resizeCanvas();
                 initBubbles();
                 initCondensation();
@@ -553,8 +561,9 @@
             }
 
             function updateConfig() {
-                state.ctaText = CONFIG.ctaText || "Tilt to Pour";
+                state.ctaText = CONFIG.ctaText || "Tilt to Drink";
                 state.beerColor = CONFIG.beerColor || "#b86a00";
+                state.beerOpacity = clamp(Number(CONFIG.beerOpacity ?? 1), 0, 1);
                 state.foamColor = CONFIG.foamColor || "#f5f0e8";
                 state.overlayCoverage = clamp(Number(CONFIG.fillLevel) / 100, 0.1, 0.95);
                 state.showBubbles = Boolean(CONFIG.showBubbles);
@@ -700,11 +709,11 @@
                 // Bright amber: darker just under the foam, blazing gold in the mid-body,
                 // warm and light at the base (backlit through glass).
                 const beerGrad = ctx.createLinearGradient(0, baseY, 0, h);
-                beerGrad.addColorStop(0,    rgba(shiftColor(state.beerColor,  0.05), 0.95));
-                beerGrad.addColorStop(0.18, rgba(shiftColor(state.beerColor,  0.55), 1.00));
-                beerGrad.addColorStop(0.5,  rgba(shiftColor(state.beerColor,  0.70), 1.00));
-                beerGrad.addColorStop(0.82, rgba(shiftColor(state.beerColor,  0.55), 1.00));
-                beerGrad.addColorStop(1,    rgba(shiftColor(state.beerColor,  0.38), 1.00));
+                beerGrad.addColorStop(0,    rgba(shiftColor(state.beerColor,  0.05), 0.95 * state.beerOpacity));
+                beerGrad.addColorStop(0.18, rgba(shiftColor(state.beerColor,  0.55), 1.00 * state.beerOpacity));
+                beerGrad.addColorStop(0.5,  rgba(shiftColor(state.beerColor,  0.70), 1.00 * state.beerOpacity));
+                beerGrad.addColorStop(0.82, rgba(shiftColor(state.beerColor,  0.55), 1.00 * state.beerOpacity));
+                beerGrad.addColorStop(1,    rgba(shiftColor(state.beerColor,  0.38), 1.00 * state.beerOpacity));
 
                 const waveSurface = (x) => {
                     const p = x / w;
