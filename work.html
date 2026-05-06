@@ -242,74 +242,30 @@
             mix-blend-mode: screen;
         }
 
-        .motion-modal[hidden] {
+        .motion-enable[hidden] {
             display: none;
         }
 
-        .motion-modal {
-            position: fixed;
-            inset: 0;
+        .motion-enable {
+            position: absolute;
+            left: 50%;
+            top: 14px;
+            transform: translateX(-50%);
             z-index: 20;
-            display: grid;
-            place-items: center;
-            padding: 20px;
-            background: rgba(5, 5, 5, 0.72);
-            -webkit-backdrop-filter: blur(10px);
-            backdrop-filter: blur(10px);
         }
 
-        .motion-modal__panel {
-            width: min(100%, 320px);
-            padding: 24px 20px 18px;
-            background: rgba(18, 18, 18, 0.96);
-            border: 1px solid rgba(255, 210, 80, 0.22);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
-            color: #fff;
-            font-family: Arial, sans-serif;
-        }
-
-        .motion-modal__title {
-            margin: 0 0 10px;
-            font-size: 24px;
-            line-height: 1.05;
-            font-weight: 700;
-            color: #f5d060;
-        }
-
-        .motion-modal__message {
-            margin: 0;
-            font-size: 14px;
-            line-height: 1.5;
-            color: rgba(255, 255, 255, 0.78);
-        }
-
-        .motion-modal__actions {
-            display: grid;
-            gap: 10px;
-            margin-top: 18px;
-        }
-
-        .motion-modal__button {
-            width: 100%;
+        .motion-enable__button {
             min-height: 44px;
             border: 0;
-            padding: 11px 16px;
+            padding: 11px 18px;
             font-size: 13px;
             font-weight: 700;
-            letter-spacing: 0.04em;
+            letter-spacing: 0.07em;
             text-transform: uppercase;
             cursor: pointer;
-        }
-
-        .motion-modal__button--primary {
             background: linear-gradient(135deg, rgba(220, 160, 20, 0.92), rgba(180, 110, 10, 0.86));
             color: #fff;
-        }
-
-        .motion-modal__button--secondary {
-            background: rgba(255, 255, 255, 0.08);
-            color: rgba(255, 255, 255, 0.88);
-            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 14px 34px rgba(0, 0, 0, 0.28);
         }
 
     </style>
@@ -350,15 +306,8 @@
 
     </div>
 
-    <div class="motion-modal" id="motionModal" hidden>
-        <div class="motion-modal__panel" role="dialog" aria-modal="true" aria-labelledby="motionModalTitle" aria-describedby="motionModalMessage">
-            <h2 class="motion-modal__title" id="motionModalTitle">Enable Motion</h2>
-            <p class="motion-modal__message" id="motionModalMessage">This experience uses your phone’s motion sensor so the liquid moves when you tilt your device.</p>
-            <div class="motion-modal__actions">
-                <button class="motion-modal__button motion-modal__button--primary" id="enableTiltButton" type="button">Enable Tilt</button>
-                <button class="motion-modal__button motion-modal__button--secondary" id="dismissTiltButton" type="button">Not Now</button>
-            </div>
-        </div>
+    <div class="motion-enable" id="motionEnable" hidden>
+        <button class="motion-enable__button" id="enableTiltButton" type="button">Enable Tilt</button>
     </div>
 
     <script>
@@ -384,9 +333,8 @@
             const bgImage = document.getElementById("bgImage");
             const ctaTextDisplay = document.getElementById("ctaTextDisplay");
             const instructionText = document.getElementById("instructionText");
-            const motionModal = document.getElementById("motionModal");
+            const motionEnable = document.getElementById("motionEnable");
             const enableTiltButton = document.getElementById("enableTiltButton");
-            const dismissTiltButton = document.getElementById("dismissTiltButton");
 
             const state = {
                 width: 300,
@@ -646,15 +594,15 @@
             }
 
             function openMotionDialog() {
-                if (!motionModal) return;
+                if (!motionEnable) return;
                 state.motionDialogOpen = true;
-                motionModal.hidden = false;
+                motionEnable.hidden = false;
             }
 
             function closeMotionDialog() {
-                if (!motionModal) return;
+                if (!motionEnable) return;
                 state.motionDialogOpen = false;
-                motionModal.hidden = true;
+                motionEnable.hidden = true;
             }
 
             function startTiltTracking() {
@@ -1082,7 +1030,6 @@
             creative.addEventListener("click", requestMotionPermissionIfNeeded, { passive: true });
             creative.addEventListener("touchstart", requestMotionPermissionIfNeeded, { passive: true });
             enableTiltButton.addEventListener("click", requestIOSMotionAccess);
-            dismissTiltButton.addEventListener("click", closeMotionDialog);
             window.addEventListener("deviceorientation", handleOrientation);
             window.addEventListener("devicemotion", handleMotion);
             window.addEventListener("resize", () => { resizeCanvas(); initBubbles(); initCondensation(); });
