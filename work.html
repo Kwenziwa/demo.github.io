@@ -10,6 +10,9 @@
             --creative-width: 300px;
             --creative-height: 600px;
             --cta-color: #ffffff;
+            --button-bg-start: rgba(220, 160, 20, 0.85);
+            --button-bg-end: rgba(180, 110, 10, 0.75);
+            --button-text-color: #ffffff;
             --border-radius: 0px;
             --shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
         }
@@ -152,9 +155,9 @@
             margin-inline: auto;
             padding: 11px 18px;
             border-radius: 999px;
-            background: linear-gradient(135deg, rgba(220, 160, 20, 0.85), rgba(180, 110, 10, 0.75));
+            background: linear-gradient(135deg, var(--button-bg-start), var(--button-bg-end));
             border: 1px solid rgba(255, 210, 80, 0.5);
-            color: #fff;
+            color: var(--button-text-color);
             font-weight: 700;
             font-size: 13px;
             font-family: Arial, sans-serif;
@@ -172,8 +175,8 @@
             width: 7px;
             height: 7px;
             border-radius: 50%;
-            background: #f5d060;
-            box-shadow: 0 0 6px rgba(245, 208, 96, 0.8);
+            background: currentColor;
+            box-shadow: 0 0 6px currentColor;
         }
 
         .liquid-layer {
@@ -248,10 +251,11 @@
 
         .motion-enable {
             position: absolute;
-            left: 50%;
-            top: 14px;
-            transform: translateX(-50%);
+            inset: 0;
             z-index: 20;
+            display: grid;
+            place-items: center;
+            pointer-events: none;
         }
 
         .motion-enable__button {
@@ -263,9 +267,10 @@
             letter-spacing: 0.07em;
             text-transform: uppercase;
             cursor: pointer;
-            background: linear-gradient(135deg, rgba(220, 160, 20, 0.92), rgba(180, 110, 10, 0.86));
-            color: #fff;
+            background: linear-gradient(135deg, var(--button-bg-start), var(--button-bg-end));
+            color: var(--button-text-color);
             box-shadow: 0 14px 34px rgba(0, 0, 0, 0.28);
+            pointer-events: auto;
         }
 
     </style>
@@ -331,6 +336,7 @@
             const condCtx = condCanvas.getContext("2d");
 
             const bgImage = document.getElementById("bgImage");
+            const cta = document.getElementById("cta");
             const ctaTextDisplay = document.getElementById("ctaTextDisplay");
             const instructionText = document.getElementById("instructionText");
             const motionEnable = document.getElementById("motionEnable");
@@ -362,6 +368,9 @@
                 beerOpacity: 1,
                 foamColor: "#f5f0e8",
                 ctaText: "Tilt to Drink",
+                buttonBackgroundColor: "rgba(220, 160, 20, 0.85)",
+                buttonBackgroundColorAlt: "rgba(180, 110, 10, 0.75)",
+                buttonTextColor: "#ffffff",
                 useDeviceMotion: false,
                 remainingBeer: 1,
                 // Persistent bubbles
@@ -720,6 +729,11 @@
                 state.showBubbles = Boolean(CONFIG.showBubbles);
                 ctaTextDisplay.textContent = state.ctaText;
                 bgImage.src = CONFIG.backgroundImage || "kfc.png";
+                document.documentElement.style.setProperty("--button-bg-start", CONFIG.buttonBackgroundColor || "rgba(220, 160, 20, 0.85)");
+                document.documentElement.style.setProperty("--button-bg-end", CONFIG.buttonBackgroundColorAlt || CONFIG.buttonBackgroundColor || "rgba(180, 110, 10, 0.75)");
+                document.documentElement.style.setProperty("--button-text-color", CONFIG.buttonTextColor || "#ffffff");
+                cta.style.color = CONFIG.buttonTextColor || "#ffffff";
+                enableTiltButton.style.color = CONFIG.buttonTextColor || "#ffffff";
             }
 
             async function requestMotionPermissionIfNeeded() {
