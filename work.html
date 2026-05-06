@@ -404,6 +404,7 @@
                 motionEnabled: false,
                 motionDenied: false,
                 motionDialogOpen: false,
+                hasLiveMotionSignal: false,
                 lastOrientationEventAt: 0,
                 baselineGamma: null,
                 baselineBeta: null,
@@ -665,6 +666,49 @@
                 setInstruction("Tilt to drink");
             }
 
+            function markMotionSignalDetected() {
+                state.hasLiveMotionSignal = true;
+                state.motionEnabled = true;
+                state.motionDenied = false;
+            }
+
+            function probeForLiveMotionSignal(timeoutMs = 400) {
+                if (state.hasLiveMotionSignal || state.motionEnabled) {
+                    return Promise.resolve(true);
+                }
+
+                return new Promise(resolve => {
+                    let settled = false;
+
+                    const finish = (result) => {
+                        if (settled) return;
+                        settled = true;
+                        window.removeEventListener("deviceorientation", handleProbeOrientation);
+                        window.removeEventListener("devicemotion", handleProbeMotion);
+                        clearTimeout(timeoutId);
+                        resolve(result);
+                    };
+
+                    const handleProbeOrientation = (event) => {
+                        if (typeof event.gamma === "number" || typeof event.beta === "number") {
+                            finish(true);
+                        }
+                    };
+
+                    const handleProbeMotion = (event) => {
+                        const accel = event.accelerationIncludingGravity;
+                        if (!accel) return;
+                        if (typeof accel.x === "number" || typeof accel.y === "number") {
+                            finish(true);
+                        }
+                    };
+
+                    const timeoutId = window.setTimeout(() => finish(false), timeoutMs);
+                    window.addEventListener("deviceorientation", handleProbeOrientation, { passive: true });
+                    window.addEventListener("devicemotion", handleProbeMotion, { passive: true });
+                });
+            }
+
             async function requestIOSMotionAccess() {
                 state.permissionRequested = true;
 
@@ -739,6 +783,11 @@
                 }
 
                 if (needsIOSMotionPermission()) {
+                    const motionAvailable = await probeForLiveMotionSignal();
+                    if (motionAvailable) {
+                        startTiltTracking();
+                        return;
+                    }
                     openMotionDialog();
                     return;
                 }
@@ -750,13 +799,13 @@
 
             function handleOrientation(e) {
                 if (typeof e.gamma !== "number" || typeof e.beta !== "number") return;
+                markMotionSignalDetected();
                 if (state.baselineGamma === null || state.baselineBeta === null) {
                     state.baselineGamma = e.gamma;
                     state.baselineBeta = e.beta;
                 }
 
                 state.lastOrientationEventAt = performance.now();
-                state.motionEnabled = true;
                 setInstruction("Tilt to drink");
                 const gammaDelta = clamp((e.gamma - state.baselineGamma) / 30, -1, 1);
                 const betaDelta = clamp((e.beta - state.baselineBeta) / 32, -1, 1);
@@ -768,6 +817,7 @@
                 const accel = e.accelerationIncludingGravity;
                 if (!accel) return;
                 if (performance.now() - state.lastOrientationEventAt < 250) return;
+                markMotionSignalDetected();
 
                 const x = typeof accel.x === "number" ? accel.x : 0;
                 const y = typeof accel.y === "number" ? accel.y : 0;
@@ -776,7 +826,6 @@
                     state.baselineAccelY = y;
                 }
 
-                state.motionEnabled = true;
                 state.useDeviceMotion = true;
                 setInstruction("Tilt to drink");
                 const xDelta = clamp((x - state.baselineAccelX) / 6.5, -1, 1);
