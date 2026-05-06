@@ -800,6 +800,27 @@
                 }
             }
 
+            async function initializeMotionExperience() {
+                if (!window.isSecureContext) {
+                    setInstruction("Open on HTTPS to enable tilt");
+                    return;
+                }
+
+                if (isAndroidDevice()) {
+                    startTiltTracking();
+                    return;
+                }
+
+                if (needsIOSMotionPermission()) {
+                    const motionAvailable = await probeForLiveMotionSignal();
+                    if (motionAvailable) {
+                        startTiltTracking();
+                    } else {
+                        openMotionDialog();
+                    }
+                }
+            }
+
             function handleOrientation(e) {
                 if (typeof e.gamma !== "number" || typeof e.beta !== "number") return;
                 markMotionSignalDetected();
@@ -1148,18 +1169,13 @@
 
             setCreativeSize(CONFIG.size || "300x600");
             updateConfig();
-            if (!window.isSecureContext) {
-                setInstruction("Open on HTTPS to enable tilt");
-            } else if (isAndroidDevice()) {
-                startTiltTracking();
-            } else if (needsIOSMotionPermission()) {
-                setInstruction("Tap to enable tilt");
-            }
+            setInstruction(window.isSecureContext ? "Tilt to drink" : "Open on HTTPS to enable tilt");
             resizeCanvas();
             resizeCondCanvas();
             initBubbles();
             initCondensation();
             requestAnimationFrame(tick);
+            initializeMotionExperience();
         })();
     </script>
 </body>
