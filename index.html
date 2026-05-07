@@ -9,9 +9,7 @@
         :root {
             --creative-width: 300px;
             --creative-height: 600px;
-            --cta-color: #ffffff;
-            --button-bg-start: rgba(220, 160, 20, 0.85);
-            --button-bg-end: rgba(180, 110, 10, 0.75);
+            --button-background: rgba(220, 160, 20, 0.85);
             --button-text-color: #ffffff;
             --border-radius: 0px;
             --shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
@@ -97,23 +95,6 @@
             pointer-events: none;
         }
 
-        .brand {
-            align-self: flex-start;
-            padding: 6px 14px;
-            border-radius: 999px;
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 220, 80, 0.35);
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 0.16em;
-            text-transform: uppercase;
-            color: #f5d060;
-            -webkit-backdrop-filter: blur(6px);
-            backdrop-filter: blur(6px);
-            pointer-events: auto;
-            font-family: Arial, sans-serif;
-        }
-
         .headline-wrap {
             margin-top: auto;
             margin-bottom: 22px;
@@ -155,7 +136,7 @@
             margin-inline: auto;
             padding: 11px 18px;
             border-radius: 999px;
-            background: linear-gradient(135deg, var(--button-bg-start), var(--button-bg-end));
+            background: var(--button-background);
             border: 1px solid rgba(255, 210, 80, 0.5);
             color: var(--button-text-color);
             font-weight: 700;
@@ -190,27 +171,6 @@
             display: block;
             width: 100%;
             height: 100%;
-        }
-
-        .instruction {
-            position: absolute;
-            left: 50%;
-            top: 34px;
-            transform: translateX(-50%);
-            z-index: 6;
-            padding: 7px 14px;
-            border-radius: 999px;
-            background: rgba(10, 10, 10, 0.5);
-            border: 1px solid rgba(245, 200, 60, 0.3);
-            -webkit-backdrop-filter: blur(8px);
-            backdrop-filter: blur(8px);
-            color: #f5d060;
-            font-size: 11px;
-            font-family: Arial, sans-serif;
-            font-weight: 700;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            white-space: nowrap;
         }
 
         /* Cold blue outer glow on the creative card */
@@ -267,7 +227,7 @@
             letter-spacing: 0.07em;
             text-transform: uppercase;
             cursor: pointer;
-            background: linear-gradient(135deg, var(--button-bg-start), var(--button-bg-end));
+            background: var(--button-background);
             color: var(--button-text-color);
             box-shadow: 0 14px 34px rgba(0, 0, 0, 0.28);
             pointer-events: auto;
@@ -285,13 +245,12 @@
 
                 <div class="content-overlay">
                     <div class="headline-wrap">
-                        <h1 class="headline">Born <em>Bold.</em><br>Poured Cold.</h1>
-                        <p class="subhead">
+                        <h1 class="headline" id="headlineText">Born <em>Bold.</em><br>Poured Cold.</h1>
+                        <p class="subhead" id="subheadText">
                             Tilt your device to drink. Pure craftsmanship in every drop.
                         </p>
 
                         <div class="cta" id="cta">
-                            <span class="cta-dot"></span>
                             <span id="ctaTextDisplay">Tilt to Drink</span>
                         </div>
                     </div>
@@ -319,13 +278,17 @@
         (() => {
             const CONFIG = {
                 size: "300x600",
-                ctaText: "Tilt to Pour",
+                ctaText: "Tilt to Drink",
+                headlineHtml: "Born <em>Bold.</em><br>Poured Cold.",
+                subheadText: "Tilt your device to drink. Pure craftsmanship in every drop.",
                 beerColor: "#b86a00",
                 beerOpacity: 1,
                 foamColor: "#f5f0e8",
                 fillLevel: 62,
                 backgroundImage: "kfc.png",
-                showBubbles: true
+                showBubbles: true,
+                buttonBackground: "rgba(220, 160, 20, 0.85)",
+                buttonTextColor: "#ffffff"
             };
 
             const creative = document.getElementById("creative");
@@ -337,15 +300,15 @@
 
             const bgImage = document.getElementById("bgImage");
             const cta = document.getElementById("cta");
+            const headlineText = document.getElementById("headlineText");
+            const subheadText = document.getElementById("subheadText");
             const ctaTextDisplay = document.getElementById("ctaTextDisplay");
-            const instructionText = document.getElementById("instructionText");
             const motionEnable = document.getElementById("motionEnable");
             const enableTiltButton = document.getElementById("enableTiltButton");
 
             const state = {
                 width: 300,
                 height: 600,
-                overlayCoverage: 0.62,
                 targetTiltX: 0,
                 targetTiltY: 0,
                 tiltX: 0,
@@ -364,27 +327,14 @@
                 baselineBeta: null,
                 baselineAccelX: null,
                 baselineAccelY: null,
-                beerColor: "#b86a00",
-                beerOpacity: 1,
-                foamColor: "#f5f0e8",
-                ctaText: "Tilt to Drink",
-                buttonBackgroundColor: "rgba(220, 160, 20, 0.85)",
-                buttonBackgroundColorAlt: "rgba(180, 110, 10, 0.75)",
-                buttonTextColor: "#ffffff",
                 useDeviceMotion: false,
                 remainingBeer: 1,
-                // Persistent bubbles
-                showBubbles: true,
                 bubbles: [],
-                // Condensation on glass exterior
                 drops: [],
                 drips: []
             };
 
-            function setInstruction(message) {
-                if (!instructionText) return;
-                instructionText.textContent = message;
-            }
+            function setInstruction() {}
 
             function initBubbles() {
                 state.bubbles = [];
@@ -724,19 +674,24 @@
             }
 
             function updateConfig() {
-                state.ctaText = CONFIG.ctaText || "Tilt to Drink";
-                state.beerColor = CONFIG.beerColor || "#b86a00";
-                state.beerOpacity = clamp(Number(CONFIG.beerOpacity ?? 1), 0, 1);
-                state.foamColor = CONFIG.foamColor || "#f5f0e8";
-                state.overlayCoverage = clamp(Number(CONFIG.fillLevel) / 100, 0.1, 0.95);
-                state.showBubbles = Boolean(CONFIG.showBubbles);
-                ctaTextDisplay.textContent = state.ctaText;
+                CONFIG.headlineHtml = CONFIG.headlineHtml || "Born <em>Bold.</em><br>Poured Cold.";
+                CONFIG.subheadText = CONFIG.subheadText || "Tilt your device to drink. Pure craftsmanship in every drop.";
+                CONFIG.ctaText = CONFIG.ctaText || "Tilt to Drink";
+                CONFIG.beerColor = CONFIG.beerColor || "#b86a00";
+                CONFIG.beerOpacity = clamp(Number(CONFIG.beerOpacity ?? 1), 0, 1);
+                CONFIG.foamColor = CONFIG.foamColor || "#f5f0e8";
+                CONFIG.fillLevel = clamp(Number(CONFIG.fillLevel), 10, 95);
+                CONFIG.showBubbles = Boolean(CONFIG.showBubbles);
+                CONFIG.buttonBackground = CONFIG.buttonBackground || "rgba(220, 160, 20, 0.85)";
+                CONFIG.buttonTextColor = CONFIG.buttonTextColor || "#ffffff";
+                headlineText.innerHTML = CONFIG.headlineHtml;
+                subheadText.textContent = CONFIG.subheadText;
+                ctaTextDisplay.textContent = CONFIG.ctaText;
                 bgImage.src = CONFIG.backgroundImage || "kfc.png";
-                document.documentElement.style.setProperty("--button-bg-start", CONFIG.buttonBackgroundColor || "rgba(220, 160, 20, 0.85)");
-                document.documentElement.style.setProperty("--button-bg-end", CONFIG.buttonBackgroundColorAlt || CONFIG.buttonBackgroundColor || "rgba(180, 110, 10, 0.75)");
-                document.documentElement.style.setProperty("--button-text-color", CONFIG.buttonTextColor || "#ffffff");
-                cta.style.color = CONFIG.buttonTextColor || "#ffffff";
-                enableTiltButton.style.color = CONFIG.buttonTextColor || "#ffffff";
+                document.documentElement.style.setProperty("--button-background", CONFIG.buttonBackground);
+                document.documentElement.style.setProperty("--button-text-color", CONFIG.buttonTextColor);
+                cta.style.color = CONFIG.buttonTextColor;
+                enableTiltButton.style.color = CONFIG.buttonTextColor;
             }
 
             async function requestMotionPermissionIfNeeded() {
@@ -860,7 +815,7 @@
             function getLiquidShape(timestamp = 0) {
                 const w = creative.clientWidth;
                 const h = creative.clientHeight;
-                const effectiveCoverage = state.overlayCoverage * state.remainingBeer;
+                const effectiveCoverage = (CONFIG.fillLevel / 100) * state.remainingBeer;
                 const baseCoverageH = h * effectiveCoverage;
                 const angle = clamp(state.smoothedAngle, -1, 1);
                 const forward = clamp(state.tiltY, -1, 1);
@@ -952,11 +907,11 @@
                 if (state.remainingBeer <= 0.002) return;
 
                 const beerGrad = ctx.createLinearGradient(0, Math.min(topLeftY, topRightY) - 20, 0, h);
-                beerGrad.addColorStop(0,    rgba(shiftColor(state.beerColor,  0.05), 0.95 * state.beerOpacity));
-                beerGrad.addColorStop(0.18, rgba(shiftColor(state.beerColor,  0.55), 1.00 * state.beerOpacity));
-                beerGrad.addColorStop(0.5,  rgba(shiftColor(state.beerColor,  0.70), 1.00 * state.beerOpacity));
-                beerGrad.addColorStop(0.82, rgba(shiftColor(state.beerColor,  0.55), 1.00 * state.beerOpacity));
-                beerGrad.addColorStop(1,    rgba(shiftColor(state.beerColor,  0.38), 1.00 * state.beerOpacity));
+                beerGrad.addColorStop(0,    rgba(shiftColor(CONFIG.beerColor,  0.05), 0.95 * CONFIG.beerOpacity));
+                beerGrad.addColorStop(0.18, rgba(shiftColor(CONFIG.beerColor,  0.55), 1.00 * CONFIG.beerOpacity));
+                beerGrad.addColorStop(0.5,  rgba(shiftColor(CONFIG.beerColor,  0.70), 1.00 * CONFIG.beerOpacity));
+                beerGrad.addColorStop(0.82, rgba(shiftColor(CONFIG.beerColor,  0.55), 1.00 * CONFIG.beerOpacity));
+                beerGrad.addColorStop(1,    rgba(shiftColor(CONFIG.beerColor,  0.38), 1.00 * CONFIG.beerOpacity));
 
                 traceLiquidPath(shape);
                 ctx.fillStyle = beerGrad;
@@ -993,7 +948,7 @@
                 ctx.restore();
 
                 const foamH = Math.max(10, Math.min(baseCoverageH * 0.28, (h * 0.082 + absAngle * h * 0.018) * Math.max(0.28, state.remainingBeer)));
-                const { r: fr, g: fg, b: fb } = hexToRgb(state.foamColor);
+                const { r: fr, g: fg, b: fb } = hexToRgb(CONFIG.foamColor);
                 const tiltMag = Math.min(1, absAngle * 3.5);
                 const foamTop = (x) => {
                     const base = waveSurface(x) - foamH;
@@ -1077,7 +1032,7 @@
 
 
                 // --- Rising bubbles inside beer ---
-                if (!state.showBubbles) return;
+                if (!CONFIG.showBubbles) return;
                 const dt = 0.016;
                 ctx.save();
                 traceLiquidPath(shape, 4);
