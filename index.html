@@ -714,7 +714,8 @@
                         startTiltTracking();
                         return;
                     }
-                    openMotionDialog();
+
+                    await requestIOSMotionAccess();
                     return;
                 }
 
@@ -735,12 +736,8 @@
                 }
 
                 if (needsIOSMotionPermission()) {
-                    const motionAvailable = await probeForLiveMotionSignal();
-                    if (motionAvailable) {
-                        startTiltTracking();
-                    } else {
-                        openMotionDialog();
-                    }
+                    closeMotionDialog();
+                    setInstruction("Tap anywhere to enable tilt");
                 }
             }
 
@@ -1082,8 +1079,8 @@
                 requestAnimationFrame(tick);
             }
 
-            creative.addEventListener("click", requestMotionPermissionIfNeeded, { passive: true });
-            creative.addEventListener("touchstart", requestMotionPermissionIfNeeded, { passive: true });
+            document.addEventListener("click", requestMotionPermissionIfNeeded, { passive: true });
+            document.addEventListener("touchstart", requestMotionPermissionIfNeeded, { passive: true });
             enableTiltButton.addEventListener("click", requestIOSMotionAccess);
             window.addEventListener("deviceorientation", handleOrientation);
             window.addEventListener("devicemotion", handleMotion);
