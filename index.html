@@ -834,8 +834,8 @@
                 const forwardOffset = forward * h * 0.04;
                 const tiltDrop = absAngle * h * 0.024;
                 const baseY = clamp(h - baseCoverageH + forwardOffset + tiltDrop, h * 0.03, h - 10);
-                const topLeftY = clamp(baseY + tiltStrength, h * 0.02, h - 8);
-                const topRightY = clamp(baseY - tiltStrength, h * 0.02, h - 8);
+                const topLeftY = clamp(baseY - tiltStrength, h * 0.02, h - 8);
+                const topRightY = clamp(baseY + tiltStrength, h * 0.02, h - 8);
                 const time = timestamp * 0.0018;
                 const waveAmp = Math.max(6, h * 0.013) + absAngle * 22 + Math.abs(forward) * 8;
                 const massCenterX = clamp(w * 0.5 + sideBias, w * 0.2, w * 0.8);
