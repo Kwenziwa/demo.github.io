@@ -79,8 +79,8 @@
             inset: 0;
             z-index: 2;
             background:
-                radial-gradient(ellipse at 50% 30%, rgba(0,0,0,0) 30%, rgba(0,0,0,0.72) 100%),
-                linear-gradient(180deg, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0) 30%, rgba(0,0,0,0.15) 60%, rgba(0,0,0,0.65) 100%);
+                radial-gradient(ellipse at 50% 30%, rgba(0, 0, 0, 0) 30%, rgba(0, 0, 0, 0.72) 100%),
+                linear-gradient(180deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0) 30%, rgba(0, 0, 0, 0.15) 60%, rgba(0, 0, 0, 0.65) 100%);
             pointer-events: none;
         }
 
@@ -149,7 +149,7 @@
             z-index: 4;
             pointer-events: auto;
             text-transform: uppercase;
-            text-shadow: 0 1px 4px rgba(0,0,0,0.4);
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
         }
 
         .cta-dot {
@@ -236,7 +236,6 @@
             box-shadow: 0 14px 34px rgba(0, 0, 0, 0.28);
             pointer-events: auto;
         }
-
     </style>
 </head>
 
@@ -339,7 +338,7 @@
                 drips: []
             };
 
-            function setInstruction() {}
+            function setInstruction() { }
 
             function initBubbles() {
                 state.bubbles = [];
@@ -646,15 +645,16 @@
                     if (!orientationGranted && !motionGranted) {
                         state.motionDenied = true;
                         state.permissionRequested = false;
-                        setInstruction("Motion access was denied. Use tap/slider fallback.");
+                        openMotionDialog();
+                        setInstruction("Motion access was denied. Tap Enable Tilt to try again.");
                         return;
                     }
 
                     startTiltTracking();
                 } catch (error) {
-                    closeMotionDialog();
                     state.permissionRequested = false;
-                    setInstruction("Motion access was denied. Use tap/slider fallback.");
+                    openMotionDialog();
+                    setInstruction("Motion access was denied. Tap Enable Tilt to try again.");
                 }
             }
 
@@ -701,7 +701,7 @@
             }
 
             async function requestMotionPermissionIfNeeded() {
-                if (state.motionEnabled || state.permissionRequested || state.motionDialogOpen) return;
+                if (state.motionEnabled || state.permissionRequested) return;
 
                 if (!window.isSecureContext) {
                     setInstruction("Open on HTTPS to enable tilt");
@@ -710,7 +710,9 @@
 
                 if (needsIOSMotionPermission()) {
                     const motionAvailable = await probeForLiveMotionSignal();
+
                     if (motionAvailable) {
+                        closeMotionDialog();
                         startTiltTracking();
                         return;
                     }
@@ -720,10 +722,10 @@
                 }
 
                 if (isAndroidDevice()) {
+                    closeMotionDialog();
                     startTiltTracking();
                 }
             }
-
             async function initializeMotionExperience() {
                 if (!window.isSecureContext) {
                     setInstruction("Open on HTTPS to enable tilt");
@@ -731,13 +733,21 @@
                 }
 
                 if (isAndroidDevice()) {
+                    closeMotionDialog();
                     startTiltTracking();
                     return;
                 }
 
                 if (needsIOSMotionPermission()) {
-                    closeMotionDialog();
-                    setInstruction("Tap anywhere to enable tilt");
+                    const motionAvailable = await probeForLiveMotionSignal();
+
+                    if (motionAvailable) {
+                        closeMotionDialog();
+                        startTiltTracking();
+                    } else {
+                        openMotionDialog();
+                        setInstruction("Tap anywhere to enable tilt");
+                    }
                 }
             }
 
@@ -910,11 +920,11 @@
                 if (state.remainingBeer <= 0.002) return;
 
                 const beerGrad = ctx.createLinearGradient(0, Math.min(topLeftY, topRightY) - 20, 0, h);
-                beerGrad.addColorStop(0,    rgba(shiftColor(CONFIG.beerColor,  0.05), 0.95 * CONFIG.beerOpacity));
-                beerGrad.addColorStop(0.18, rgba(shiftColor(CONFIG.beerColor,  0.55), 1.00 * CONFIG.beerOpacity));
-                beerGrad.addColorStop(0.5,  rgba(shiftColor(CONFIG.beerColor,  0.70), 1.00 * CONFIG.beerOpacity));
-                beerGrad.addColorStop(0.82, rgba(shiftColor(CONFIG.beerColor,  0.55), 1.00 * CONFIG.beerOpacity));
-                beerGrad.addColorStop(1,    rgba(shiftColor(CONFIG.beerColor,  0.38), 1.00 * CONFIG.beerOpacity));
+                beerGrad.addColorStop(0, rgba(shiftColor(CONFIG.beerColor, 0.05), 0.95 * CONFIG.beerOpacity));
+                beerGrad.addColorStop(0.18, rgba(shiftColor(CONFIG.beerColor, 0.55), 1.00 * CONFIG.beerOpacity));
+                beerGrad.addColorStop(0.5, rgba(shiftColor(CONFIG.beerColor, 0.70), 1.00 * CONFIG.beerOpacity));
+                beerGrad.addColorStop(0.82, rgba(shiftColor(CONFIG.beerColor, 0.55), 1.00 * CONFIG.beerOpacity));
+                beerGrad.addColorStop(1, rgba(shiftColor(CONFIG.beerColor, 0.38), 1.00 * CONFIG.beerOpacity));
 
                 traceLiquidPath(shape);
                 ctx.fillStyle = beerGrad;
@@ -939,13 +949,13 @@
                 ctx.fillRect(0, 0, w, h);
 
                 const streakGrad = ctx.createLinearGradient(0, 0, w, 0);
-                streakGrad.addColorStop(0,    "rgba(255,210,90,0.00)");
+                streakGrad.addColorStop(0, "rgba(255,210,90,0.00)");
                 streakGrad.addColorStop(0.12, "rgba(255,215,100,0.22)");
                 streakGrad.addColorStop(0.28, "rgba(255,230,130,0.38)");
                 streakGrad.addColorStop(0.50, "rgba(255,235,140,0.18)");
                 streakGrad.addColorStop(0.72, "rgba(255,215,100,0.30)");
                 streakGrad.addColorStop(0.88, "rgba(255,210,90,0.18)");
-                streakGrad.addColorStop(1,    "rgba(255,210,90,0.00)");
+                streakGrad.addColorStop(1, "rgba(255,210,90,0.00)");
                 ctx.fillStyle = streakGrad;
                 ctx.fillRect(0, baseY - 20, w, h - baseY + 20);
                 ctx.restore();
@@ -978,7 +988,7 @@
                 ctx.fill();
 
                 // ── 2. Vertical shading gradient over whole foam mass ────────────
-                const gradTop    = foamTop(w / 2) - 4;
+                const gradTop = foamTop(w / 2) - 4;
                 const gradBottom = waveSurface(w / 2) + 2;
                 const fgGrad = ctx.createLinearGradient(0, gradTop, 0, gradBottom);
                 fgGrad.addColorStop(0.00, `rgba(255,255,255,0.80)`);   // bright peak
