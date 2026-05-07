@@ -700,7 +700,11 @@
                 enableTiltButton.style.background = CONFIG.buttonBackground;
             }
 
-            async function requestMotionPermissionIfNeeded() {
+            async function requestMotionPermissionIfNeeded(event) {
+                if (event && event.target && event.target.closest && event.target.closest("button, a, input, textarea, select")) {
+                    return;
+                }
+
                 if (state.motionEnabled || state.permissionRequested) return;
 
                 if (!window.isSecureContext) {
@@ -709,14 +713,6 @@
                 }
 
                 if (needsIOSMotionPermission()) {
-                    const motionAvailable = await probeForLiveMotionSignal();
-
-                    if (motionAvailable) {
-                        closeMotionDialog();
-                        startTiltTracking();
-                        return;
-                    }
-
                     await requestIOSMotionAccess();
                     return;
                 }
@@ -1089,9 +1085,12 @@
                 requestAnimationFrame(tick);
             }
 
-            document.addEventListener("click", requestMotionPermissionIfNeeded, { passive: true });
-            document.addEventListener("touchstart", requestMotionPermissionIfNeeded, { passive: true });
-            enableTiltButton.addEventListener("click", requestIOSMotionAccess);
+            document.addEventListener("click", requestMotionPermissionIfNeeded);
+            document.addEventListener("touchend", requestMotionPermissionIfNeeded);
+            enableTiltButton.addEventListener("click", function (event) {
+                event.stopPropagation();
+                requestIOSMotionAccess();
+            });
             window.addEventListener("deviceorientation", handleOrientation);
             window.addEventListener("devicemotion", handleMotion);
             window.addEventListener("resize", () => { resizeCanvas(); initBubbles(); initCondensation(); });
