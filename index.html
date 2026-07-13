@@ -99,10 +99,11 @@
 
 <body>
   <p>If your browser supports <code>navigator.share</code>, you'll see a single share icon below; otherwise, you'll see
-    fallback links:</p>
+    fallback links: update 7:46</p>
 
   <div data-share="device facebook twitter linkedin" data-share-label="Share on"
-    data-share-device="Share using device sharing"></div>
+    data-share-device="Share using device sharing"
+    data-share-text="Check this out!"></div>
 
   <pre id="debug" style="margin-top:1.5rem;padding:1rem;background:#f1f3f5;border-radius:.5rem;font-size:.8rem;word-break:break-all"></pre>
 
@@ -128,7 +129,9 @@
       const deviceIndex = options.indexOf('device');
       const pageUrl = location.href;
       const pageTitle = document.title;
-      const pageDescription = document.querySelector('meta[name="description"]')?.content || '';
+      const pageDescription = element.dataset.shareText
+        || document.querySelector('meta[name="description"]')?.content
+        || '';
 
       const nativeShareData = { title: pageTitle, url: pageUrl };
       if (pageDescription) nativeShareData.text = pageDescription;
