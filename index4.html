@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Nexus Global Holdings | Global Strategy. Smarter Growth.</title>
+  <meta name="description" content="Nexus Global Holdings is a business and management consultancy helping companies navigate international markets, payments, regulation, technology and growth." />
+  <meta name="theme-color" content="#08111F" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind (CDN for prototyping) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            ink: '#060B14',
+            navy: { 950: '#08111F', 900: '#0B1A2E', 800: '#12243D', 700: '#1B3354' },
+            brand: '#1F4FD1',
+            electric: '#3D8BFF',
+            mist: '#F3F5F8',
+            steel: '#5B6577',
+            gold: '#C6A15B',
+          },
+          fontFamily: {
+            display: ['Sora', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+            sans: ['"DM Sans"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+          },
+          maxWidth: { site: '1240px' },
+        },
+      },
+    };
+  </script>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body class="bg-white font-sans text-navy-900 antialiased">
+
+  <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-white focus:px-4 focus:py-2 focus:text-navy-900">Skip to content</a>
+
+  <!-- ===================================================================
+       Header / Navigation
+       =================================================================== -->
+  <header id="site-header" class="fixed inset-x-0 top-0 z-50 transition-all duration-500">
+    <div class="mx-auto flex h-[76px] max-w-site items-center justify-between px-5 sm:px-8">
+      <!-- Logo -->
+      <a href="#home" class="flex items-center gap-3 text-white" aria-label="Nexus Global Holdings, back to top">
+        <svg class="h-9 w-9 shrink-0" viewBox="0 0 36 36" aria-hidden="true">
+          <rect width="36" height="36" rx="10" fill="#1F4FD1" />
+          <path d="M11 25V11l14 14V11" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+          <circle cx="11" cy="11" r="2.4" fill="#fff" /><circle cx="25" cy="25" r="2.4" fill="#fff" />
+          <circle cx="25" cy="11" r="2.4" fill="#9CC4FF" />
+        </svg>
+        <span class="leading-tight">
+          <span class="block font-display text-[15px] font-semibold tracking-tight">Nexus Global</span>
+          <span class="block text-[11px] tracking-[0.18em] text-white/55">HOLDINGS</span>
+        </span>
+      </a>
+
+      <!-- Desktop nav -->
+      <nav aria-label="Primary" class="hidden lg:block">
+        <ul class="flex items-center gap-8 text-[14px] text-white/70">
+          <li><a href="#home" class="nav-link relative py-2 transition-colors hover:text-white after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:origin-left after:scale-x-0 after:bg-electric after:transition-transform after:duration-300">Home</a></li>
+          <li><a href="#about" class="nav-link relative py-2 transition-colors hover:text-white after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:origin-left after:scale-x-0 after:bg-electric after:transition-transform after:duration-300">About</a></li>
+          <li><a href="#services" class="nav-link relative py-2 transition-colors hover:text-white after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:origin-left after:scale-x-0 after:bg-electric after:transition-transform after:duration-300">Services</a></li>
+          <li><a href="#industries" class="nav-link relative py-2 transition-colors hover:text-white after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:origin-left after:scale-x-0 after:bg-electric after:transition-transform after:duration-300">Industries</a></li>
+          <li><a href="#global-reach" class="nav-link relative py-2 transition-colors hover:text-white after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:origin-left after:scale-x-0 after:bg-electric after:transition-transform after:duration-300">Global Reach</a></li>
+          <li><a href="#insights" class="nav-link relative py-2 transition-colors hover:text-white after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:origin-left after:scale-x-0 after:bg-electric after:transition-transform after:duration-300">Insights</a></li>
+          <li><a href="#contact" class="nav-link relative py-2 transition-colors hover:text-white after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:origin-left after:scale-x-0 after:bg-electric after:transition-transform after:duration-300">Contact</a></li>
+        </ul>
+      </nav>
+
+      <div class="flex items-center gap-3">
+        <a href="#contact" class="group hidden items-center gap-2 rounded-full bg-white px-5 py-2.5 text-[14px] font-medium text-navy-950 transition hover:bg-electric hover:text-white sm:inline-flex">
+          Speak to an Advisor
+          <i data-lucide="arrow-up-right" class="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"></i>
+        </a>
+        <!-- Mobile toggle -->
+        <button id="menu-toggle" class="burger relative z-[60] flex h-11 w-11 flex-col items-center justify-center gap-[4px] rounded-full border border-white/15 text-white lg:hidden" aria-controls="mobile-menu" aria-expanded="false" aria-label="Open menu">
+          <span class="block h-[2px] w-5 rounded bg-current"></span>
+          <span class="block h-[2px] w-5 rounded bg-current"></span>
+          <span class="block h-[2px] w-5 rounded bg-current"></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile menu -->
+    <div id="mobile-menu" class="fixed inset-0 z-50 flex flex-col bg-navy-950 px-6 pb-10 pt-28 lg:hidden" aria-hidden="true">
+      <div class="bg-grid-dark grid-fade pointer-events-none absolute inset-0 opacity-60"></div>
+      <nav aria-label="Mobile" class="relative">
+        <ul class="space-y-1 font-display text-[2rem] font-medium tracking-tight text-white">
+          <li><a class="m-link block py-2" style="--i:0" href="#home">Home</a></li>
+          <li><a class="m-link block py-2" style="--i:1" href="#about">About</a></li>
+          <li><a class="m-link block py-2" style="--i:2" href="#services">Services</a></li>
+          <li><a class="m-link block py-2" style="--i:3" href="#industries">Industries</a></li>
+          <li><a class="m-link block py-2" style="--i:4" href="#global-reach">Global Reach</a></li>
+          <li><a class="m-link block py-2" style="--i:5" href="#insights">Insights</a></li>
+          <li><a class="m-link block py-2" style="--i:6" href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <a href="#contact" class="m-link relative mt-auto flex items-center justify-center gap-2 rounded-full bg-electric px-6 py-4 text-base font-medium text-white" style="--i:7">
+        Speak to an Advisor <i data-lucide="arrow-up-right" class="h-5 w-5"></i>
+      </a>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <!-- ===================================================================
+         Hero
+         =================================================================== -->
+    <section id="home" class="relative flex min-h-[100svh] items-center overflow-hidden bg-navy-950 text-white">
+      <div class="bg-grid-dark grid-fade grid-drift pointer-events-none absolute inset-0" aria-hidden="true"></div>
+      <div class="pointer-events-none absolute -right-40 top-1/4 h-[640px] w-[640px] rounded-full bg-brand/25 blur-[140px]" aria-hidden="true"></div>
+
+      <div class="relative mx-auto grid w-full max-w-site grid-cols-1 items-center gap-10 px-5 pb-28 pt-32 sm:px-8 lg:grid-cols-12 lg:gap-6 lg:pb-24 lg:pt-28">
+        <!-- Copy -->
+        <div class="lg:col-span-7" data-hero>
+          <p class="mb-7 inline-flex items-center gap-2.5 rounded-full border border-white/10 bg-white/[0.04] px-4 py-1.5 text-[13px] text-white/75" data-reveal>
+            <span class="h-1.5 w-1.5 rounded-full bg-electric shadow-[0_0_10px_2px_rgba(61,139,255,.8)]"></span>
+            Business &amp; management consulting
+          </p>
+
+          <h1 class="font-display text-[2.85rem] font-semibold leading-[1.02] tracking-[-0.035em] sm:text-6xl lg:whitespace-nowrap lg:text-[4.1rem] xl:text-[4.6rem]" data-reveal-group>
+            <span class="mask-line"><span style="--d:.1s">Global Strategy.</span></span>
+            <span class="mask-line"><span class="text-white/55" style="--d:.25s">Smarter Growth.</span></span>
+          </h1>
+
+          <p class="mt-7 max-w-[34rem] text-[17px] leading-relaxed text-white/70 sm:text-lg" data-reveal style="--d:.4s">
+            Nexus Global Holdings helps businesses navigate international markets, payment ecosystems, regulatory complexity and technology change, with advice tailored to where they want to grow next.
+          </p>
+
+          <div class="mt-9 flex flex-col gap-3 sm:flex-row" data-reveal style="--d:.5s">
+            <a href="#contact" class="group inline-flex items-center justify-center gap-2 rounded-full bg-electric px-7 py-4 text-[15px] font-medium text-white transition hover:bg-white hover:text-navy-950">
+              Speak to an Advisor
+              <i data-lucide="arrow-up-right" class="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"></i>
+            </a>
+            <a href="#services" class="inline-flex items-center justify-center gap-2 rounded-full border border-white/20 px-7 py-4 text-[15px] font-medium text-white transition hover:border-white/50 hover:bg-white/5">
+              Explore Our Services
+            </a>
+          </div>
+        </div>
+
+        <!-- Globe visual -->
+        <div class="relative lg:col-span-5" data-reveal style="--d:.3s">
+          <div class="relative mx-auto aspect-square w-full max-w-[360px] sm:max-w-[480px] lg:max-w-[560px]">
+            <canvas id="hero-globe" class="absolute inset-0 h-full w-full" role="img" aria-label="Slowly rotating globe of dotted continents with arcs connecting regions around the world"></canvas>
+
+            <!-- Floating advisory chips (descriptive, no statistics) -->
+            <div class="float-slow absolute left-0 top-[14%] hidden rounded-2xl border border-white/10 bg-navy-900/80 p-3.5 pr-5 shadow-2xl shadow-black/40 backdrop-blur-md sm:block">
+              <div class="flex items-center gap-3">
+                <span class="grid h-9 w-9 place-items-center rounded-xl bg-electric/15 text-electric"><i data-lucide="compass" class="h-4 w-4"></i></span>
+                <div><p class="text-[11px] text-white/50">Market entry</p><p class="text-[13px] font-medium">Jurisdiction review</p></div>
+              </div>
+            </div>
+            <div class="float-slow delay-1 absolute -right-2 top-[44%] hidden rounded-2xl border border-white/10 bg-navy-900/80 p-3.5 pr-5 shadow-2xl shadow-black/40 backdrop-blur-md sm:block">
+              <div class="flex items-center gap-3">
+                <span class="grid h-9 w-9 place-items-center rounded-xl bg-electric/15 text-electric"><i data-lucide="credit-card" class="h-4 w-4"></i></span>
+                <div><p class="text-[11px] text-white/50">Payments</p><p class="text-[13px] font-medium">Partner mapping</p></div>
+              </div>
+            </div>
+            <div class="float-slow delay-2 absolute bottom-[8%] left-[10%] hidden rounded-2xl border border-white/10 bg-navy-900/80 p-3.5 pr-5 shadow-2xl shadow-black/40 backdrop-blur-md sm:block">
+              <div class="flex items-center gap-3">
+                <span class="grid h-9 w-9 place-items-center rounded-xl bg-gold/15 text-gold"><i data-lucide="shield-check" class="h-4 w-4"></i></span>
+                <div><p class="text-[11px] text-white/50">Compliance</p><p class="text-[13px] font-medium">Licensing pathway</p></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hero footer line -->
+      <div class="absolute inset-x-0 bottom-0 border-t border-white/10">
+        <div class="mx-auto flex max-w-site items-center justify-between gap-6 px-5 py-5 sm:px-8">
+          <p class="text-[12px] tracking-wide text-white/45 sm:text-[13px]">Strategy • Compliance • Payments • Technology • Global Expansion</p>
+          <a href="#credibility" class="hidden items-center gap-2 text-[13px] text-white/45 transition hover:text-white md:flex">
+            Scroll <i data-lucide="arrow-down" class="h-4 w-4 animate-bounce"></i>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         Trust / Credibility strip
+         =================================================================== -->
+    <section id="credibility" aria-label="Areas of expertise" class="border-b border-navy-900/10 bg-white">
+      <ul class="mx-auto grid max-w-site grid-cols-2 px-5 sm:grid-cols-3 sm:px-8 lg:grid-cols-5">
+        <li class="flex items-center gap-3 border-navy-900/10 py-7 pr-4 lg:border-r lg:pl-0" data-reveal style="--d:0s">
+          <i data-lucide="globe" class="h-5 w-5 shrink-0 text-brand"></i><span class="text-[14px] font-medium leading-snug">Global Market Expertise</span></li>
+        <li class="flex items-center gap-3 border-navy-900/10 py-7 pr-4 lg:border-r lg:pl-7" data-reveal style="--d:.08s">
+          <i data-lucide="landmark" class="h-5 w-5 shrink-0 text-brand"></i><span class="text-[14px] font-medium leading-snug">Multi-Jurisdiction Advisory</span></li>
+        <li class="flex items-center gap-3 border-navy-900/10 py-7 pr-4 lg:border-r lg:pl-7" data-reveal style="--d:.16s">
+          <i data-lucide="cpu" class="h-5 w-5 shrink-0 text-brand"></i><span class="text-[14px] font-medium leading-snug">Technology &amp; Innovation</span></li>
+        <li class="flex items-center gap-3 border-navy-900/10 py-7 pr-4 lg:border-r lg:pl-7" data-reveal style="--d:.24s">
+          <i data-lucide="handshake" class="h-5 w-5 shrink-0 text-brand"></i><span class="text-[14px] font-medium leading-snug">Strategic Partnerships</span></li>
+        <li class="flex items-center gap-3 py-7 pr-4 lg:pl-7" data-reveal style="--d:.32s">
+          <i data-lucide="scale" class="h-5 w-5 shrink-0 text-brand"></i><span class="text-[14px] font-medium leading-snug">Regulatory Awareness</span></li>
+      </ul>
+    </section>
+
+    <!-- ===================================================================
+         About
+         =================================================================== -->
+    <section id="about" class="bg-mist py-24 sm:py-32">
+      <div class="mx-auto grid max-w-site grid-cols-1 gap-14 px-5 sm:px-8 lg:grid-cols-12 lg:gap-16">
+        <div class="lg:col-span-6">
+          <p class="mb-5 text-[14px] font-medium text-brand" data-reveal>About Nexus</p>
+          <h2 class="font-display text-[2.3rem] font-semibold leading-[1.06] tracking-[-0.03em] sm:text-5xl lg:text-[3.6rem]" data-reveal-group>
+            <span class="mask-line"><span>Built for businesses</span></span>
+            <span class="mask-line"><span style="--d:.1s">operating beyond</span></span>
+            <span class="mask-line"><span style="--d:.2s">borders.</span></span>
+          </h2>
+          <div class="mt-8 max-w-xl space-y-5 text-[17px] leading-relaxed text-steel" data-reveal>
+            <p>Nexus Global Holdings is a business and management consultancy for companies that operate across markets. We help clients make sense of unfamiliar regulatory environments, choose the right payment partners, modernise their technology and plan growth with confidence.</p>
+            <p>We deliver reliable, efficient consulting without compromising on quality or compliance, and we measure success by partnerships that last well beyond the first project.</p>
+          </div>
+
+          <!-- Core values -->
+          <ul class="mt-8 flex flex-wrap gap-2" data-reveal aria-label="Core values">
+            <li class="rounded-full border border-navy-900/10 bg-white px-4 py-2 text-[13px] font-medium">Integrity</li>
+            <li class="rounded-full border border-navy-900/10 bg-white px-4 py-2 text-[13px] font-medium">Quality</li>
+            <li class="rounded-full border border-navy-900/10 bg-white px-4 py-2 text-[13px] font-medium">Compliance</li>
+            <li class="rounded-full border border-navy-900/10 bg-white px-4 py-2 text-[13px] font-medium">Client care</li>
+            <li class="rounded-full border border-navy-900/10 bg-white px-4 py-2 text-[13px] font-medium">Innovation</li>
+          </ul>
+
+          <!-- Honest counters: describe the offering, not invented results -->
+          <dl class="mt-12 grid grid-cols-3 gap-6 border-t border-navy-900/10 pt-8" data-reveal>
+            <div class="flex flex-col-reverse"><dt class="mt-1 text-[13px] leading-snug text-steel">Advisory practices</dt><dd class="font-display text-4xl font-semibold tracking-tight sm:text-5xl" data-count="6">0</dd></div>
+            <div class="flex flex-col-reverse"><dt class="mt-1 text-[13px] leading-snug text-steel">Industries supported</dt><dd class="font-display text-4xl font-semibold tracking-tight sm:text-5xl" data-count="8">0</dd></div>
+            <div class="flex flex-col-reverse"><dt class="mt-1 text-[13px] leading-snug text-steel">Stage engagement model</dt><dd class="font-display text-4xl font-semibold tracking-tight sm:text-5xl" data-count="4">0</dd></div>
+          </dl>
+
+          <a href="#services" class="group mt-10 inline-flex items-center gap-2 text-[15px] font-medium text-navy-900" data-reveal>
+            <span class="border-b border-navy-900/30 pb-0.5 transition group-hover:border-brand group-hover:text-brand">Learn About Nexus</span>
+            <i data-lucide="arrow-right" class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 group-hover:text-brand"></i>
+          </a>
+        </div>
+
+        <!-- Image + mission card -->
+        <div class="relative lg:col-span-6" data-reveal style="--d:.15s">
+          <div class="relative h-[420px] overflow-hidden rounded-[28px] sm:h-[560px] lg:h-full lg:min-h-[640px]">
+            <img data-parallax="0.08" class="absolute inset-0 h-[115%] w-full object-cover" src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1400&q=80" alt="Looking up at glass office towers against a clear sky" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-navy-950/80 via-navy-950/10 to-transparent"></div>
+          </div>
+          <figure class="absolute bottom-5 left-5 right-5 rounded-2xl border border-white/15 bg-navy-950/85 p-6 text-white backdrop-blur-md sm:bottom-8 sm:left-8 sm:right-auto sm:max-w-sm">
+            <i data-lucide="quote" class="h-6 w-6 text-gold"></i>
+            <blockquote class="mt-3 text-[15px] leading-relaxed text-white/85">Integrity and customer satisfaction remain at the core of everything we do.</blockquote>
+            <figcaption class="mt-4 text-[13px] text-white/50">Our mission</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         Services
+         =================================================================== -->
+    <section id="services" class="relative overflow-hidden bg-navy-950 py-24 text-white sm:py-32">
+      <div class="bg-grid-dark grid-fade pointer-events-none absolute inset-0 opacity-50" aria-hidden="true"></div>
+      <div class="relative mx-auto max-w-site px-5 sm:px-8">
+        <div class="mb-14 grid gap-6 lg:grid-cols-12 lg:items-end">
+          <div class="lg:col-span-7">
+            <p class="mb-5 text-[14px] font-medium text-electric" data-reveal>Services</p>
+            <h2 class="font-display text-[2.3rem] font-semibold leading-[1.06] tracking-[-0.03em] sm:text-5xl" data-reveal-group>
+              <span class="mask-line"><span>Six practices, one view</span></span>
+              <span class="mask-line"><span style="--d:.1s">of your growth.</span></span>
+            </h2>
+          </div>
+          <p class="text-[17px] leading-relaxed text-white/60 lg:col-span-5" data-reveal>Each engagement draws on the practices it needs, so strategy, regulation, payments and technology are planned together rather than in isolation.</p>
+        </div>
+
+        <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-12 lg:gap-5">
+          <!-- 01 featured -->
+          <a href="#contact" class="service-card group relative flex min-h-[340px] flex-col overflow-hidden rounded-[26px] border border-white/10 bg-gradient-to-br from-brand/35 via-navy-900 to-navy-900 p-8 transition duration-500 hover:-translate-y-1 hover:border-electric/60 md:col-span-2 lg:col-span-7 lg:p-10" data-reveal>
+            <div class="flex items-start justify-between">
+              <span class="font-display text-[14px] text-white/50">01</span>
+              <span class="grid h-11 w-11 place-items-center rounded-full border border-white/20 transition duration-500 group-hover:border-electric group-hover:bg-electric"><i data-lucide="arrow-up-right" class="h-5 w-5 transition-transform duration-500 group-hover:rotate-45"></i></span>
+            </div>
+            <span class="mt-10 grid h-14 w-14 place-items-center rounded-2xl bg-white/10 text-white transition duration-500 group-hover:scale-110 group-hover:bg-white group-hover:text-brand"><i data-lucide="briefcase" class="h-6 w-6"></i></span>
+            <h3 class="mt-auto pt-10 font-display text-3xl font-semibold tracking-tight sm:text-[2.2rem]">Business &amp; Management Consulting</h3>
+            <p class="mt-3 max-w-lg text-[16px] leading-relaxed text-white/65">Growth strategy, operating models and management support for businesses scaling into new markets or restructuring for the next stage.</p>
+          </a>
+
+          <!-- 02 -->
+          <a href="#payments" class="service-card group relative flex min-h-[340px] flex-col overflow-hidden rounded-[26px] border border-white/10 bg-white/[0.03] p-8 transition duration-500 hover:-translate-y-1 hover:border-electric/60 lg:col-span-5" data-reveal style="--d:.08s">
+            <div class="pointer-events-none absolute inset-0 bg-gradient-to-br from-electric/15 to-transparent opacity-0 transition duration-500 group-hover:opacity-100"></div>
+            <div class="relative flex items-start justify-between">
+              <span class="font-display text-[14px] text-white/50">02</span>
+              <i data-lucide="arrow-up-right" class="h-5 w-5 text-white/40 transition duration-500 group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-electric"></i>
+            </div>
+            <span class="relative mt-10 grid h-12 w-12 place-items-center rounded-2xl border border-white/10 text-electric transition duration-500 group-hover:-rotate-6 group-hover:border-electric/50"><i data-lucide="credit-card" class="h-5 w-5"></i></span>
+            <h3 class="relative mt-auto pt-10 font-display text-2xl font-semibold tracking-tight">Payment Solutions</h3>
+            <p class="relative mt-3 text-[15px] leading-relaxed text-white/60">Connecting merchants with licensed PSPs, acquirers, EMIs and alternative payment methods suited to their markets.</p>
+          </a>
+
+          <!-- 03 -->
+          <a href="#regulatory" class="service-card group relative flex min-h-[300px] flex-col overflow-hidden rounded-[26px] border border-white/10 bg-white/[0.03] p-8 transition duration-500 hover:-translate-y-1 hover:border-electric/60 lg:col-span-4" data-reveal>
+            <div class="pointer-events-none absolute inset-0 bg-gradient-to-br from-electric/15 to-transparent opacity-0 transition duration-500 group-hover:opacity-100"></div>
+            <div class="relative flex items-start justify-between">
+              <span class="font-display text-[14px] text-white/50">03</span>
+              <i data-lucide="arrow-up-right" class="h-5 w-5 text-white/40 transition duration-500 group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-electric"></i>
+            </div>
+            <span class="relative mt-8 grid h-12 w-12 place-items-center rounded-2xl border border-white/10 text-electric transition duration-500 group-hover:-rotate-6 group-hover:border-electric/50"><i data-lucide="landmark" class="h-5 w-5"></i></span>
+            <h3 class="relative mt-auto pt-8 font-display text-xl font-semibold tracking-tight">Licensing &amp; Regulatory Advisory</h3>
+            <p class="relative mt-3 text-[15px] leading-relaxed text-white/60">Guidance on licensing pathways, jurisdiction selection and ongoing compliance obligations.</p>
+          </a>
+
+          <!-- 04 -->
+          <a href="#technology" class="service-card group relative flex min-h-[300px] flex-col overflow-hidden rounded-[26px] border border-white/10 bg-white/[0.03] p-8 transition duration-500 hover:-translate-y-1 hover:border-electric/60 lg:col-span-4" data-reveal style="--d:.08s">
+            <div class="pointer-events-none absolute inset-0 bg-gradient-to-br from-electric/15 to-transparent opacity-0 transition duration-500 group-hover:opacity-100"></div>
+            <div class="relative flex items-start justify-between">
+              <span class="font-display text-[14px] text-white/50">04</span>
+              <i data-lucide="arrow-up-right" class="h-5 w-5 text-white/40 transition duration-500 group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-electric"></i>
+            </div>
+            <span class="relative mt-8 grid h-12 w-12 place-items-center rounded-2xl border border-white/10 text-electric transition duration-500 group-hover:-rotate-6 group-hover:border-electric/50"><i data-lucide="cpu" class="h-5 w-5"></i></span>
+            <h3 class="relative mt-auto pt-8 font-display text-xl font-semibold tracking-tight">Technology &amp; Innovation Advisory</h3>
+            <p class="relative mt-3 text-[15px] leading-relaxed text-white/60">Practical advice on selecting, integrating and modernising the technology your business runs on.</p>
+          </a>
+
+          <!-- 05 -->
+          <a href="#contact" class="service-card group relative flex min-h-[300px] flex-col overflow-hidden rounded-[26px] border border-white/10 bg-white/[0.03] p-8 transition duration-500 hover:-translate-y-1 hover:border-electric/60 md:col-span-2 lg:col-span-4" data-reveal style="--d:.16s">
+            <div class="pointer-events-none absolute inset-0 bg-gradient-to-br from-electric/15 to-transparent opacity-0 transition duration-500 group-hover:opacity-100"></div>
+            <div class="relative flex items-start justify-between">
+              <span class="font-display text-[14px] text-white/50">05</span>
+              <i data-lucide="arrow-up-right" class="h-5 w-5 text-white/40 transition duration-500 group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-electric"></i>
+            </div>
+            <span class="relative mt-8 grid h-12 w-12 place-items-center rounded-2xl border border-white/10 text-electric transition duration-500 group-hover:-rotate-6 group-hover:border-electric/50"><i data-lucide="rocket" class="h-5 w-5"></i></span>
+            <h3 class="relative mt-auto pt-8 font-display text-xl font-semibold tracking-tight">Product Development &amp; Market Expansion</h3>
+            <p class="relative mt-3 text-[15px] leading-relaxed text-white/60">Shaping products for new audiences and planning a structured entry into new regions.</p>
+          </a>
+
+          <!-- 06 wide -->
+          <a href="#technology" class="service-card group relative flex flex-col gap-8 overflow-hidden rounded-[26px] border border-white/10 bg-white/[0.03] p-8 transition duration-500 hover:-translate-y-1 hover:border-electric/60 md:col-span-2 lg:col-span-12 lg:flex-row lg:items-center lg:p-10" data-reveal>
+            <div class="pointer-events-none absolute inset-0 bg-gradient-to-r from-electric/15 to-transparent opacity-0 transition duration-500 group-hover:opacity-100"></div>
+            <div class="relative flex items-center gap-6 lg:w-1/2">
+              <span class="font-display text-[14px] text-white/50">06</span>
+              <span class="grid h-12 w-12 shrink-0 place-items-center rounded-2xl border border-white/10 text-electric transition duration-500 group-hover:-rotate-6 group-hover:border-electric/50"><i data-lucide="bar-chart-3" class="h-5 w-5"></i></span>
+              <h3 class="font-display text-xl font-semibold tracking-tight sm:text-2xl">Data Analytics &amp; AI-Driven Insights</h3>
+            </div>
+            <p class="relative text-[15px] leading-relaxed text-white/60 lg:w-5/12">Turning operational and market data into reporting, forecasts and decisions your team can act on.</p>
+            <i data-lucide="arrow-up-right" class="relative h-5 w-5 shrink-0 text-white/40 transition duration-500 group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-electric lg:ml-auto"></i>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         Payment Solutions feature
+         =================================================================== -->
+    <section id="payments" class="bg-white py-24 sm:py-32">
+      <div class="mx-auto grid max-w-site grid-cols-1 items-center gap-14 px-5 sm:px-8 lg:grid-cols-12 lg:gap-16">
+        <div class="lg:col-span-6">
+          <p class="mb-5 text-[14px] font-medium text-brand" data-reveal>Payment solutions</p>
+          <h2 class="font-display text-[2.3rem] font-semibold leading-[1.06] tracking-[-0.03em] sm:text-5xl" data-reveal-group>
+            <span class="mask-line"><span>The right payment partners,</span></span>
+            <span class="mask-line"><span style="--d:.1s">properly connected.</span></span>
+          </h2>
+          <p class="mt-7 max-w-xl text-[17px] leading-relaxed text-steel" data-reveal>We act as a consultancy and integration partner. We assess what your business needs, introduce licensed and regulated providers that fit your markets and risk profile, and support you through integration.</p>
+
+          <dl class="mt-10 grid gap-x-8 gap-y-7 sm:grid-cols-2" data-reveal>
+            <div class="border-t border-navy-900/10 pt-5"><dt class="font-display text-[17px] font-semibold">PSPs</dt><dd class="mt-1.5 text-[15px] leading-relaxed text-steel">Payment service providers for online and in-person acceptance.</dd></div>
+            <div class="border-t border-navy-900/10 pt-5"><dt class="font-display text-[17px] font-semibold">Acquirers</dt><dd class="mt-1.5 text-[15px] leading-relaxed text-steel">Banks and institutions that settle card transactions for merchants.</dd></div>
+            <div class="border-t border-navy-900/10 pt-5"><dt class="font-display text-[17px] font-semibold">EMIs</dt><dd class="mt-1.5 text-[15px] leading-relaxed text-steel">Electronic money institutions for accounts, wallets and payouts.</dd></div>
+            <div class="border-t border-navy-900/10 pt-5"><dt class="font-display text-[17px] font-semibold">Alternative payment methods</dt><dd class="mt-1.5 text-[15px] leading-relaxed text-steel">Local and digital methods your customers already prefer.</dd></div>
+          </dl>
+
+          <p class="mt-10 flex gap-3 rounded-2xl bg-mist p-5 text-[14px] leading-relaxed text-steel" data-reveal>
+            <i data-lucide="info" class="mt-0.5 h-4 w-4 shrink-0 text-brand"></i>
+            Nexus Global Holdings provides advisory and integration support. Payment processing and related regulated services are provided by the licensed third-party partners themselves.
+          </p>
+        </div>
+
+        <!-- Flow diagram -->
+        <div class="lg:col-span-6" data-reveal style="--d:.15s">
+          <div class="relative overflow-hidden rounded-[30px] bg-navy-950 p-6 text-white sm:p-10">
+            <div class="bg-grid-dark grid-fade pointer-events-none absolute inset-0" aria-hidden="true"></div>
+            <ol class="relative mx-auto max-w-sm" aria-label="How a merchant connects to payment infrastructure through Nexus">
+              <li class="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.04] p-4">
+                <span class="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-white/10"><i data-lucide="store" class="h-5 w-5"></i></span>
+                <div><p class="font-display text-[15px] font-semibold">Merchant</p><p class="text-[13px] text-white/55">Your business and its markets</p></div>
+              </li>
+              <li aria-hidden="true" class="flow-line" style="--d:0s"></li>
+              <li class="relative flex items-center gap-4 rounded-2xl border border-electric/60 bg-brand/25 p-4 shadow-[0_0_40px_-8px_rgba(61,139,255,.6)]">
+                <svg class="h-11 w-11 shrink-0" viewBox="0 0 36 36" aria-hidden="true"><rect width="36" height="36" rx="10" fill="#1F4FD1"/><path d="M11 25V11l14 14V11" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="11" cy="11" r="2.4" fill="#fff"/><circle cx="25" cy="25" r="2.4" fill="#fff"/><circle cx="25" cy="11" r="2.4" fill="#9CC4FF"/></svg>
+                <div><p class="font-display text-[15px] font-semibold">Nexus Global Holdings</p><p class="text-[13px] text-white/65">Assessment, partner selection, integration support</p></div>
+              </li>
+              <li aria-hidden="true" class="flow-line" style="--d:.8s"></li>
+              <li class="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
+                <div class="flex items-center gap-4">
+                  <span class="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-white/10"><i data-lucide="shield-check" class="h-5 w-5"></i></span>
+                  <div><p class="font-display text-[15px] font-semibold">Licensed PSP / Acquirer</p><p class="text-[13px] text-white/55">Regulated third-party providers</p></div>
+                </div>
+                <div class="mt-4 flex flex-wrap gap-1.5">
+                  <span class="rounded-full border border-white/15 px-2.5 py-1 text-[12px] text-white/70">PSPs</span>
+                  <span class="rounded-full border border-white/15 px-2.5 py-1 text-[12px] text-white/70">Acquirers</span>
+                  <span class="rounded-full border border-white/15 px-2.5 py-1 text-[12px] text-white/70">EMIs</span>
+                  <span class="rounded-full border border-white/15 px-2.5 py-1 text-[12px] text-white/70">APMs</span>
+                </div>
+              </li>
+              <li aria-hidden="true" class="flow-line" style="--d:1.6s"></li>
+              <li class="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.04] p-4">
+                <span class="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-gold/15 text-gold"><i data-lucide="globe" class="h-5 w-5"></i></span>
+                <div><p class="font-display text-[15px] font-semibold">Global payment infrastructure</p><p class="text-[13px] text-white/55">Card networks, local rails and wallets</p></div>
+              </li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         Regulatory
+         =================================================================== -->
+    <section id="regulatory" class="relative overflow-hidden bg-ink py-24 text-white sm:py-32">
+      <div class="bg-grid-dark grid-drift pointer-events-none absolute inset-0 opacity-70 [mask-image:linear-gradient(to_bottom,transparent,#000_30%,#000_70%,transparent)]" aria-hidden="true"></div>
+      <div class="relative mx-auto max-w-site px-5 sm:px-8">
+        <div class="mx-auto max-w-3xl text-center">
+          <p class="mb-5 text-[14px] font-medium text-electric" data-reveal>Licensing &amp; regulatory advisory</p>
+          <h2 class="font-display text-[2.3rem] font-semibold leading-[1.06] tracking-[-0.03em] sm:text-5xl lg:text-6xl" data-reveal-group>
+            <span class="mask-line"><span>Navigate regulation</span></span>
+            <span class="mask-line"><span style="--d:.1s">with confidence.</span></span>
+          </h2>
+          <p class="mx-auto mt-7 max-w-2xl text-[17px] leading-relaxed text-white/60" data-reveal>Regulatory requirements shape what you can offer, where and how quickly. We help you understand them early, so compliance supports your plans instead of stalling them.</p>
+        </div>
+
+        <div class="glow-wrap mt-16 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <article class="glow-card rounded-3xl bg-white/[0.03] p-8 ring-1 ring-white/10" data-reveal>
+            <i data-lucide="file-badge" class="h-6 w-6 text-electric"></i>
+            <h3 class="mt-6 font-display text-xl font-semibold">Licensing Strategy</h3>
+            <p class="mt-3 text-[15px] leading-relaxed text-white/60">Identifying which licences your model requires and the most practical route to obtaining them.</p>
+          </article>
+          <article class="glow-card rounded-3xl bg-white/[0.03] p-8 ring-1 ring-white/10" data-reveal style="--d:.06s">
+            <i data-lucide="clipboard-check" class="h-6 w-6 text-electric"></i>
+            <h3 class="mt-6 font-display text-xl font-semibold">Compliance Advisory</h3>
+            <p class="mt-3 text-[15px] leading-relaxed text-white/60">Policies, controls and processes that meet your obligations and fit how your team actually works.</p>
+          </article>
+          <article class="glow-card rounded-3xl bg-white/[0.03] p-8 ring-1 ring-white/10" data-reveal style="--d:.12s">
+            <i data-lucide="map" class="h-6 w-6 text-electric"></i>
+            <h3 class="mt-6 font-display text-xl font-semibold">Market Entry</h3>
+            <p class="mt-3 text-[15px] leading-relaxed text-white/60">Comparing jurisdictions on requirements, timelines and cost before you commit to a market.</p>
+          </article>
+          <article class="glow-card rounded-3xl bg-white/[0.03] p-8 ring-1 ring-white/10" data-reveal>
+            <i data-lucide="file-search" class="h-6 w-6 text-electric"></i>
+            <h3 class="mt-6 font-display text-xl font-semibold">Regulatory Research</h3>
+            <p class="mt-3 text-[15px] leading-relaxed text-white/60">Clear summaries of the rules and upcoming changes that affect your products and markets.</p>
+          </article>
+          <article class="glow-card rounded-3xl bg-white/[0.03] p-8 ring-1 ring-white/10" data-reveal style="--d:.06s">
+            <i data-lucide="building-2" class="h-6 w-6 text-electric"></i>
+            <h3 class="mt-6 font-display text-xl font-semibold">Governance</h3>
+            <p class="mt-3 text-[15px] leading-relaxed text-white/60">Board, reporting and oversight structures that regulators and partners expect to see.</p>
+          </article>
+          <article class="glow-card rounded-3xl bg-white/[0.03] p-8 ring-1 ring-white/10" data-reveal style="--d:.12s">
+            <i data-lucide="shield-alert" class="h-6 w-6 text-electric"></i>
+            <h3 class="mt-6 font-display text-xl font-semibold">Risk Management</h3>
+            <p class="mt-3 text-[15px] leading-relaxed text-white/60">Frameworks to identify, assess and monitor operational, financial and compliance risk.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         Global Reach
+         =================================================================== -->
+    <section id="global-reach" class="overflow-hidden bg-mist py-24 sm:py-32">
+      <div class="mx-auto max-w-site px-5 sm:px-8">
+        <div class="grid gap-6 lg:grid-cols-12 lg:items-end">
+          <div class="lg:col-span-7">
+            <p class="mb-5 text-[14px] font-medium text-brand" data-reveal>Global reach</p>
+            <h2 class="font-display text-[2.3rem] font-semibold leading-[1.06] tracking-[-0.03em] sm:text-5xl lg:text-[3.5rem]" data-reveal-group>
+              <span class="mask-line"><span>Global thinking.</span></span>
+              <span class="mask-line"><span style="--d:.1s">Local understanding.</span></span>
+            </h2>
+          </div>
+          <p class="text-[17px] leading-relaxed text-steel lg:col-span-5" data-reveal>Supporting businesses across international markets, industries and regulatory environments.</p>
+        </div>
+
+        <div class="relative mt-14" data-reveal>
+          <canvas id="world-map" class="block w-full" role="img" aria-label="Dotted world map with connections between North America, Latin America, Europe, the Middle East, Africa and Asia Pacific"></canvas>
+          <div id="map-tooltip" class="pointer-events-none absolute left-0 top-0 hidden -translate-x-1/2 -translate-y-[130%] whitespace-nowrap rounded-full bg-navy-950 px-3 py-1.5 text-[12px] font-medium text-white shadow-lg"></div>
+        </div>
+
+        <div class="mt-10 flex flex-col gap-6 border-t border-navy-900/10 pt-8 lg:flex-row lg:items-center lg:justify-between">
+          <ul class="flex flex-wrap gap-2" aria-label="Regions">
+            <li><button type="button" data-region="na" class="region-btn rounded-full border border-navy-900/15 bg-white px-4 py-2 text-[13px] font-medium transition hover:border-brand hover:text-brand aria-pressed:border-brand aria-pressed:bg-brand aria-pressed:text-white" aria-pressed="false">North America</button></li>
+            <li><button type="button" data-region="latam" class="region-btn rounded-full border border-navy-900/15 bg-white px-4 py-2 text-[13px] font-medium transition hover:border-brand hover:text-brand aria-pressed:border-brand aria-pressed:bg-brand aria-pressed:text-white" aria-pressed="false">Latin America</button></li>
+            <li><button type="button" data-region="eu" class="region-btn rounded-full border border-navy-900/15 bg-white px-4 py-2 text-[13px] font-medium transition hover:border-brand hover:text-brand aria-pressed:border-brand aria-pressed:bg-brand aria-pressed:text-white" aria-pressed="false">Europe</button></li>
+            <li><button type="button" data-region="me" class="region-btn rounded-full border border-navy-900/15 bg-white px-4 py-2 text-[13px] font-medium transition hover:border-brand hover:text-brand aria-pressed:border-brand aria-pressed:bg-brand aria-pressed:text-white" aria-pressed="false">Middle East</button></li>
+            <li><button type="button" data-region="af" class="region-btn rounded-full border border-navy-900/15 bg-white px-4 py-2 text-[13px] font-medium transition hover:border-brand hover:text-brand aria-pressed:border-brand aria-pressed:bg-brand aria-pressed:text-white" aria-pressed="false">Africa</button></li>
+            <li><button type="button" data-region="apac" class="region-btn rounded-full border border-navy-900/15 bg-white px-4 py-2 text-[13px] font-medium transition hover:border-brand hover:text-brand aria-pressed:border-brand aria-pressed:bg-brand aria-pressed:text-white" aria-pressed="false">Asia Pacific</button></li>
+          </ul>
+          <p class="max-w-sm text-[13px] leading-relaxed text-steel">Regions are shown for illustration and do not represent Nexus office locations.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         Technology
+         =================================================================== -->
+    <section id="technology" class="relative overflow-hidden bg-navy-950 py-24 text-white sm:py-32">
+      <!-- Subtle circuit-style background -->
+      <svg class="pointer-events-none absolute inset-0 h-full w-full opacity-[0.07]" aria-hidden="true">
+        <defs>
+          <pattern id="circuit" width="120" height="120" patternUnits="userSpaceOnUse">
+            <path d="M0 60h40l10-10h30l10 10h30M60 0v30l10 10v40l-10 10v30" fill="none" stroke="#fff" stroke-width="1"/>
+            <circle cx="50" cy="50" r="2.5" fill="#fff"/><circle cx="70" cy="80" r="2.5" fill="#fff"/>
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#circuit)"/>
+      </svg>
+      <div class="relative mx-auto max-w-site px-5 sm:px-8">
+        <div class="max-w-3xl">
+          <p class="mb-5 text-[14px] font-medium text-electric" data-reveal>Technology &amp; innovation</p>
+          <h2 class="font-display text-[2.3rem] font-semibold leading-[1.06] tracking-[-0.03em] sm:text-5xl" data-reveal-group>
+            <span class="mask-line"><span>Technology that solves</span></span>
+            <span class="mask-line"><span style="--d:.1s">real business problems.</span></span>
+          </h2>
+          <p class="mt-7 max-w-2xl text-[17px] leading-relaxed text-white/60" data-reveal>We start with the problem, then recommend the technology. Sometimes that means something new; often it means making better use of what you already have.</p>
+        </div>
+
+        <div class="mt-16 grid grid-cols-1 gap-4 [perspective:1200px] sm:grid-cols-2 lg:grid-cols-3">
+          <article class="tilt group rounded-3xl border border-white/10 bg-gradient-to-b from-white/[0.06] to-white/[0.01] p-8 transition-colors hover:border-electric/50" data-tilt data-reveal>
+            <div class="flex items-center justify-between"><i data-lucide="brain" class="h-7 w-7 text-electric"></i><span class="h-2 w-2 rounded-full bg-white/20 transition group-hover:bg-electric group-hover:shadow-[0_0_12px_2px_rgba(61,139,255,.7)]"></span></div>
+            <h3 class="mt-10 font-display text-xl font-semibold">Artificial Intelligence</h3>
+            <p class="mt-3 text-[15px] leading-relaxed text-white/60">Automating document review, customer queries and forecasting where it saves real time.</p>
+          </article>
+          <article class="tilt group rounded-3xl border border-white/10 bg-gradient-to-b from-white/[0.06] to-white/[0.01] p-8 transition-colors hover:border-electric/50" data-tilt data-reveal style="--d:.06s">
+            <div class="flex items-center justify-between"><i data-lucide="database" class="h-7 w-7 text-electric"></i><span class="h-2 w-2 rounded-full bg-white/20 transition group-hover:bg-electric group-hover:shadow-[0_0_12px_2px_rgba(61,139,255,.7)]"></span></div>
+            <h3 class="mt-10 font-display text-xl font-semibold">Data Analytics</h3>
+            <p class="mt-3 text-[15px] leading-relaxed text-white/60">Reporting and models that show where revenue, cost and risk actually sit.</p>
+          </article>
+          <article class="tilt group rounded-3xl border border-white/10 bg-gradient-to-b from-white/[0.06] to-white/[0.01] p-8 transition-colors hover:border-electric/50" data-tilt data-reveal style="--d:.12s">
+            <div class="flex items-center justify-between"><i data-lucide="blocks" class="h-7 w-7 text-electric"></i><span class="h-2 w-2 rounded-full bg-white/20 transition group-hover:bg-electric group-hover:shadow-[0_0_12px_2px_rgba(61,139,255,.7)]"></span></div>
+            <h3 class="mt-10 font-display text-xl font-semibold">Blockchain</h3>
+            <p class="mt-3 text-[15px] leading-relaxed text-white/60">An honest assessment of where distributed ledgers fit, such as settlement or traceability, and where they don't.</p>
+          </article>
+          <article class="tilt group rounded-3xl border border-white/10 bg-gradient-to-b from-white/[0.06] to-white/[0.01] p-8 transition-colors hover:border-electric/50" data-tilt data-reveal>
+            <div class="flex items-center justify-between"><i data-lucide="cloud" class="h-7 w-7 text-electric"></i><span class="h-2 w-2 rounded-full bg-white/20 transition group-hover:bg-electric group-hover:shadow-[0_0_12px_2px_rgba(61,139,255,.7)]"></span></div>
+            <h3 class="mt-10 font-display text-xl font-semibold">Cloud Technology</h3>
+            <p class="mt-3 text-[15px] leading-relaxed text-white/60">Migration plans and architecture that grow with your transaction volumes.</p>
+          </article>
+          <article class="tilt group rounded-3xl border border-white/10 bg-gradient-to-b from-white/[0.06] to-white/[0.01] p-8 transition-colors hover:border-electric/50" data-tilt data-reveal style="--d:.06s">
+            <div class="flex items-center justify-between"><i data-lucide="workflow" class="h-7 w-7 text-electric"></i><span class="h-2 w-2 rounded-full bg-white/20 transition group-hover:bg-electric group-hover:shadow-[0_0_12px_2px_rgba(61,139,255,.7)]"></span></div>
+            <h3 class="mt-10 font-display text-xl font-semibold">Automation</h3>
+            <p class="mt-3 text-[15px] leading-relaxed text-white/60">Removing manual steps from onboarding, reconciliation and reporting.</p>
+          </article>
+          <article class="tilt group rounded-3xl border border-white/10 bg-gradient-to-b from-white/[0.06] to-white/[0.01] p-8 transition-colors hover:border-electric/50" data-tilt data-reveal style="--d:.12s">
+            <div class="flex items-center justify-between"><i data-lucide="radio" class="h-7 w-7 text-electric"></i><span class="h-2 w-2 rounded-full bg-white/20 transition group-hover:bg-electric group-hover:shadow-[0_0_12px_2px_rgba(61,139,255,.7)]"></span></div>
+            <h3 class="mt-10 font-display text-xl font-semibold">IoT</h3>
+            <p class="mt-3 text-[15px] leading-relaxed text-white/60">Connecting devices and field data to the systems where decisions get made.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         Industries
+         =================================================================== -->
+    <section id="industries" class="bg-white py-24 sm:py-32">
+      <div class="mx-auto max-w-site px-5 sm:px-8">
+        <div class="grid gap-6 lg:grid-cols-12 lg:items-end">
+          <h2 class="font-display text-[2.3rem] font-semibold leading-[1.06] tracking-[-0.03em] sm:text-5xl lg:col-span-7" data-reveal-group>
+            <span class="mask-line"><span>Industries we support</span></span>
+          </h2>
+          <p class="text-[17px] leading-relaxed text-steel lg:col-span-5" data-reveal>Sectors where regulation, payments and technology meet, and where getting them right shapes how fast you grow.</p>
+        </div>
+
+        <div class="mt-14 grid grid-cols-1 gap-px overflow-hidden rounded-3xl border border-navy-900/10 bg-navy-900/10 sm:grid-cols-2 lg:grid-cols-4">
+          <article class="group bg-white p-7 transition-colors duration-300 hover:bg-mist" data-reveal>
+            <i data-lucide="landmark" class="h-6 w-6 text-brand transition-transform duration-300 group-hover:-translate-y-1"></i>
+            <h3 class="mt-8 font-display text-lg font-semibold">Financial Services</h3>
+            <p class="mt-2 text-[14px] leading-relaxed text-steel">Institutions expanding products or entering new jurisdictions.</p>
+          </article>
+          <article class="group bg-white p-7 transition-colors duration-300 hover:bg-mist" data-reveal style="--d:.05s">
+            <i data-lucide="smartphone" class="h-6 w-6 text-brand transition-transform duration-300 group-hover:-translate-y-1"></i>
+            <h3 class="mt-8 font-display text-lg font-semibold">Fintech</h3>
+            <p class="mt-2 text-[14px] leading-relaxed text-steel">Growing companies balancing speed with regulatory expectations.</p>
+          </article>
+          <article class="group bg-white p-7 transition-colors duration-300 hover:bg-mist" data-reveal style="--d:.1s">
+            <i data-lucide="credit-card" class="h-6 w-6 text-brand transition-transform duration-300 group-hover:-translate-y-1"></i>
+            <h3 class="mt-8 font-display text-lg font-semibold">Payments</h3>
+            <p class="mt-2 text-[14px] leading-relaxed text-steel">Merchants and providers building reliable payment set-ups.</p>
+          </article>
+          <article class="group bg-white p-7 transition-colors duration-300 hover:bg-mist" data-reveal style="--d:.15s">
+            <i data-lucide="server" class="h-6 w-6 text-brand transition-transform duration-300 group-hover:-translate-y-1"></i>
+            <h3 class="mt-8 font-display text-lg font-semibold">Technology</h3>
+            <p class="mt-2 text-[14px] leading-relaxed text-steel">Software and platform businesses taking products to new markets.</p>
+          </article>
+          <article class="group bg-white p-7 transition-colors duration-300 hover:bg-mist" data-reveal>
+            <i data-lucide="shopping-bag" class="h-6 w-6 text-brand transition-transform duration-300 group-hover:-translate-y-1"></i>
+            <h3 class="mt-8 font-display text-lg font-semibold">E-commerce</h3>
+            <p class="mt-2 text-[14px] leading-relaxed text-steel">Online retailers selling across borders and currencies.</p>
+          </article>
+          <article class="group bg-white p-7 transition-colors duration-300 hover:bg-mist" data-reveal style="--d:.05s">
+            <i data-lucide="gamepad-2" class="h-6 w-6 text-brand transition-transform duration-300 group-hover:-translate-y-1"></i>
+            <h3 class="mt-8 font-display text-lg font-semibold">Gaming</h3>
+            <p class="mt-2 text-[14px] leading-relaxed text-steel">Operators working within tightly regulated licensing regimes.</p>
+          </article>
+          <article class="group bg-white p-7 transition-colors duration-300 hover:bg-mist" data-reveal style="--d:.1s">
+            <i data-lucide="briefcase" class="h-6 w-6 text-brand transition-transform duration-300 group-hover:-translate-y-1"></i>
+            <h3 class="mt-8 font-display text-lg font-semibold">Professional Services</h3>
+            <p class="mt-2 text-[14px] leading-relaxed text-steel">Firms modernising operations and client delivery.</p>
+          </article>
+          <article class="group bg-white p-7 transition-colors duration-300 hover:bg-mist" data-reveal style="--d:.15s">
+            <i data-lucide="globe" class="h-6 w-6 text-brand transition-transform duration-300 group-hover:-translate-y-1"></i>
+            <h3 class="mt-8 font-display text-lg font-semibold">International Businesses</h3>
+            <p class="mt-2 text-[14px] leading-relaxed text-steel">Companies coordinating operations across several countries.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         How We Work (process timeline)
+         =================================================================== -->
+    <section id="process" class="bg-mist py-24 sm:py-32">
+      <div class="mx-auto max-w-site px-5 sm:px-8">
+        <div class="max-w-2xl">
+          <p class="mb-5 text-[14px] font-medium text-brand" data-reveal>How we work</p>
+          <h2 class="font-display text-[2.3rem] font-semibold leading-[1.06] tracking-[-0.03em] sm:text-5xl" data-reveal-group>
+            <span class="mask-line"><span>A clear path from</span></span>
+            <span class="mask-line"><span style="--d:.1s">question to result.</span></span>
+          </h2>
+        </div>
+
+        <div id="timeline" class="relative mt-16 lg:mt-20">
+          <!-- Track: horizontal on desktop, vertical on mobile -->
+          <div class="absolute bottom-2 left-[19px] top-2 w-px bg-navy-900/15 lg:bottom-auto lg:left-0 lg:right-0 lg:top-[19px] lg:h-px lg:w-auto" aria-hidden="true">
+            <div class="timeline-fill absolute inset-0 bg-brand"></div>
+          </div>
+
+          <ol class="relative grid gap-12 lg:grid-cols-4 lg:gap-8">
+            <li class="step relative pl-16 lg:pl-0">
+              <span class="step-dot absolute left-0 top-0 grid h-10 w-10 place-items-center rounded-full border border-navy-900/20 bg-mist text-[13px] font-semibold text-steel transition-all duration-500 lg:static">01</span>
+              <h3 class="font-display text-2xl font-semibold lg:mt-8">Understand</h3>
+              <p class="mt-3 text-[15px] leading-relaxed text-steel">We learn your business model, markets, constraints and what success needs to look like.</p>
+            </li>
+            <li class="step relative pl-16 lg:pl-0">
+              <span class="step-dot absolute left-0 top-0 grid h-10 w-10 place-items-center rounded-full border border-navy-900/20 bg-mist text-[13px] font-semibold text-steel transition-all duration-500 lg:static">02</span>
+              <h3 class="font-display text-2xl font-semibold lg:mt-8">Strategise</h3>
+              <p class="mt-3 text-[15px] leading-relaxed text-steel">We turn findings into a practical plan with clear priorities, partners and timelines.</p>
+            </li>
+            <li class="step relative pl-16 lg:pl-0">
+              <span class="step-dot absolute left-0 top-0 grid h-10 w-10 place-items-center rounded-full border border-navy-900/20 bg-mist text-[13px] font-semibold text-steel transition-all duration-500 lg:static">03</span>
+              <h3 class="font-display text-2xl font-semibold lg:mt-8">Implement</h3>
+              <p class="mt-3 text-[15px] leading-relaxed text-steel">We work alongside your team through licensing, integrations and launch.</p>
+            </li>
+            <li class="step relative pl-16 lg:pl-0">
+              <span class="step-dot absolute left-0 top-0 grid h-10 w-10 place-items-center rounded-full border border-navy-900/20 bg-mist text-[13px] font-semibold text-steel transition-all duration-500 lg:static">04</span>
+              <h3 class="font-display text-2xl font-semibold lg:mt-8">Optimise</h3>
+              <p class="mt-3 text-[15px] leading-relaxed text-steel">We review performance and refine the approach as your business and regulations evolve.</p>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         Why Nexus
+         =================================================================== -->
+    <section id="why" class="bg-navy-950 py-24 text-white sm:py-32">
+      <div class="mx-auto grid max-w-site grid-cols-1 gap-14 px-5 sm:px-8 lg:grid-cols-12 lg:gap-16">
+        <div class="lg:col-span-5">
+          <div class="lg:sticky lg:top-32">
+            <p class="mb-5 text-[14px] font-medium text-gold" data-reveal>Why Nexus</p>
+            <h2 class="font-display text-[2.3rem] font-semibold leading-[1.06] tracking-[-0.03em] sm:text-5xl lg:text-[2.9rem]" data-reveal-group>
+              <span class="mask-line"><span>Consulting that</span></span>
+              <span class="mask-line"><span style="--d:.1s">goes beyond the brief.</span></span>
+            </h2>
+            <p class="mt-7 text-[17px] leading-relaxed text-white/60" data-reveal>We offer comprehensive, tailored solutions for the specific needs of each business, and we stay involved as those needs change.</p>
+            <a href="#contact" class="group mt-9 inline-flex items-center gap-2 rounded-full border border-white/20 px-6 py-3.5 text-[15px] font-medium transition hover:border-gold hover:text-gold" data-reveal>
+              Start a conversation <i data-lucide="arrow-right" class="h-4 w-4 transition-transform group-hover:translate-x-1"></i>
+            </a>
+          </div>
+        </div>
+
+        <ul class="divide-y divide-white/10 border-y border-white/10 lg:col-span-7">
+          <li class="group grid gap-3 py-8 sm:grid-cols-[1fr_1.1fr] sm:gap-8" data-reveal>
+            <h3 class="font-display text-2xl font-semibold tracking-tight text-white/85 transition-colors group-hover:text-white sm:text-3xl">Global expertise</h3>
+            <p class="text-[15px] leading-relaxed text-white/55 transition-colors group-hover:text-white/75">Experience across international markets, regulators and payment ecosystems.</p>
+          </li>
+          <li class="group grid gap-3 py-8 sm:grid-cols-[1fr_1.1fr] sm:gap-8" data-reveal>
+            <h3 class="font-display text-2xl font-semibold tracking-tight text-white/85 transition-colors group-hover:text-white sm:text-3xl">Tailored strategy</h3>
+            <p class="text-[15px] leading-relaxed text-white/55 transition-colors group-hover:text-white/75">Every recommendation is built around your model, markets and appetite for risk.</p>
+          </li>
+          <li class="group grid gap-3 py-8 sm:grid-cols-[1fr_1.1fr] sm:gap-8" data-reveal>
+            <h3 class="font-display text-2xl font-semibold tracking-tight text-white/85 transition-colors group-hover:text-white sm:text-3xl">Data-driven decisions</h3>
+            <p class="text-[15px] leading-relaxed text-white/55 transition-colors group-hover:text-white/75">Choices grounded in evidence, from market sizing to partner comparisons.</p>
+          </li>
+          <li class="group grid gap-3 py-8 sm:grid-cols-[1fr_1.1fr] sm:gap-8" data-reveal>
+            <h3 class="font-display text-2xl font-semibold tracking-tight text-white/85 transition-colors group-hover:text-white sm:text-3xl">Regulatory awareness</h3>
+            <p class="text-[15px] leading-relaxed text-white/55 transition-colors group-hover:text-white/75">Compliance considered from day one, never bolted on at the end.</p>
+          </li>
+          <li class="group grid gap-3 py-8 sm:grid-cols-[1fr_1.1fr] sm:gap-8" data-reveal>
+            <h3 class="font-display text-2xl font-semibold tracking-tight text-white/85 transition-colors group-hover:text-white sm:text-3xl">Technology expertise</h3>
+            <p class="text-[15px] leading-relaxed text-white/55 transition-colors group-hover:text-white/75">Advice that connects business goals to the systems that deliver them.</p>
+          </li>
+          <li class="group grid gap-3 py-8 sm:grid-cols-[1fr_1.1fr] sm:gap-8" data-reveal>
+            <h3 class="font-display text-2xl font-semibold tracking-tight text-white/85 transition-colors group-hover:text-gold sm:text-3xl">Long-term partnerships</h3>
+            <p class="text-[15px] leading-relaxed text-white/55 transition-colors group-hover:text-white/75">Relationships that extend well beyond the first project we complete together.</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         Testimonials (placeholder content)
+         =================================================================== -->
+    <section id="testimonials" class="bg-white py-24 sm:py-32" aria-roledescription="carousel" aria-label="Client testimonials">
+      <div class="mx-auto max-w-5xl px-5 sm:px-8">
+        <div class="flex items-center justify-between gap-6">
+          <svg class="h-12 w-12 text-brand sm:h-16 sm:w-16" viewBox="0 0 48 48" aria-hidden="true" fill="currentColor"><path d="M20 10C11 13 6 20 6 29v9h14V24h-7c0-5 3-8 8-10l-1-4zm22 0c-9 3-14 10-14 19v9h14V24h-7c0-5 3-8 8-10l-1-4z"/></svg>
+          <span class="rounded-full bg-mist px-3 py-1.5 text-[12px] font-medium text-steel">Placeholder testimonials</span>
+        </div>
+
+        <div id="slides" class="mt-10 grid" aria-live="polite">
+          <figure class="slide is-active" role="group" aria-roledescription="slide" aria-label="1 of 3">
+            <blockquote class="font-display text-[1.6rem] font-medium leading-[1.3] tracking-[-0.02em] sm:text-4xl sm:leading-[1.25]">"Nexus helped us understand the licensing options in two new markets and introduced payment partners that suited our model. We went from uncertainty to a clear plan."</blockquote>
+            <figcaption class="mt-10 flex items-center gap-4">
+              <span class="grid h-12 w-12 place-items-center rounded-full bg-navy-950 font-display text-sm text-white">CN</span>
+              <span><span class="block font-medium">Client Name</span><span class="block text-[14px] text-steel">Chief Executive Officer, Company Name (placeholder)</span></span>
+            </figcaption>
+          </figure>
+          <figure class="slide" role="group" aria-roledescription="slide" aria-label="2 of 3">
+            <blockquote class="font-display text-[1.6rem] font-medium leading-[1.3] tracking-[-0.02em] sm:text-4xl sm:leading-[1.25]">"Their team treated compliance as part of the growth strategy, not an obstacle to it. That changed how our board thought about expansion."</blockquote>
+            <figcaption class="mt-10 flex items-center gap-4">
+              <span class="grid h-12 w-12 place-items-center rounded-full bg-navy-950 font-display text-sm text-white">CN</span>
+              <span><span class="block font-medium">Client Name</span><span class="block text-[14px] text-steel">Head of Compliance, Company Name (placeholder)</span></span>
+            </figcaption>
+          </figure>
+          <figure class="slide" role="group" aria-roledescription="slide" aria-label="3 of 3">
+            <blockquote class="font-display text-[1.6rem] font-medium leading-[1.3] tracking-[-0.02em] sm:text-4xl sm:leading-[1.25]">"Practical, responsive and honest about what would and wouldn't work. Nexus has become a long-term partner rather than a one-off adviser."</blockquote>
+            <figcaption class="mt-10 flex items-center gap-4">
+              <span class="grid h-12 w-12 place-items-center rounded-full bg-navy-950 font-display text-sm text-white">CN</span>
+              <span><span class="block font-medium">Client Name</span><span class="block text-[14px] text-steel">Managing Director, Company Name (placeholder)</span></span>
+            </figcaption>
+          </figure>
+        </div>
+
+        <div class="mt-12 flex items-center justify-between border-t border-navy-900/10 pt-6">
+          <div class="flex gap-2" role="tablist" aria-label="Choose testimonial">
+            <button type="button" class="slide-dot h-1.5 w-8 rounded-full bg-navy-900 transition-all" role="tab" aria-selected="true" aria-label="Testimonial 1"></button>
+            <button type="button" class="slide-dot h-1.5 w-4 rounded-full bg-navy-900/20 transition-all" role="tab" aria-selected="false" aria-label="Testimonial 2"></button>
+            <button type="button" class="slide-dot h-1.5 w-4 rounded-full bg-navy-900/20 transition-all" role="tab" aria-selected="false" aria-label="Testimonial 3"></button>
+          </div>
+          <div class="flex gap-2">
+            <button type="button" id="prev-slide" class="grid h-12 w-12 place-items-center rounded-full border border-navy-900/15 transition hover:border-navy-900 hover:bg-navy-900 hover:text-white" aria-label="Previous testimonial"><i data-lucide="arrow-left" class="h-5 w-5"></i></button>
+            <button type="button" id="next-slide" class="grid h-12 w-12 place-items-center rounded-full border border-navy-900/15 transition hover:border-navy-900 hover:bg-navy-900 hover:text-white" aria-label="Next testimonial"><i data-lucide="arrow-right" class="h-5 w-5"></i></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         Insights (placeholder articles)
+         =================================================================== -->
+    <section id="insights" class="bg-mist py-24 sm:py-32">
+      <div class="mx-auto max-w-site px-5 sm:px-8">
+        <div class="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p class="mb-5 text-[14px] font-medium text-brand" data-reveal>Insights</p>
+            <h2 class="font-display text-[2.3rem] font-semibold leading-[1.06] tracking-[-0.03em] sm:text-5xl" data-reveal-group>
+              <span class="mask-line"><span>Perspectives on</span></span>
+              <span class="mask-line"><span style="--d:.1s">global business.</span></span>
+            </h2>
+          </div>
+          <a href="#insights" class="group inline-flex items-center gap-2 text-[15px] font-medium" data-reveal>
+            <span class="border-b border-navy-900/30 pb-0.5 transition group-hover:border-brand group-hover:text-brand">View all insights</span>
+            <i data-lucide="arrow-right" class="h-4 w-4 transition-transform group-hover:translate-x-1 group-hover:text-brand"></i>
+          </a>
+        </div>
+
+        <div class="mt-14 grid grid-cols-1 gap-6 md:grid-cols-3">
+          <article class="group" data-reveal>
+            <a href="#insights" class="block">
+              <div class="aspect-[4/3] overflow-hidden rounded-3xl bg-navy-900">
+                <img class="h-full w-full object-cover transition duration-700 group-hover:scale-105" src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=900&q=80" alt="Customer tapping a card on a payment terminal" loading="lazy" />
+              </div>
+              <div class="mt-6 flex items-center gap-3 text-[13px] text-steel"><span class="rounded-full bg-white px-3 py-1 font-medium text-brand">Payments</span><time datetime="2026-09">Sep 2026 (placeholder)</time></div>
+              <h3 class="mt-4 font-display text-xl font-semibold leading-snug tracking-tight transition-colors group-hover:text-brand">The future of global payments</h3>
+              <p class="mt-2 text-[15px] leading-relaxed text-steel">How local payment methods and real-time rails are changing what merchants need from their providers.</p>
+              <span class="mt-5 inline-flex items-center gap-2 text-[14px] font-medium">Read article <i data-lucide="arrow-right" class="h-4 w-4 transition-transform group-hover:translate-x-1"></i></span>
+            </a>
+          </article>
+          <article class="group" data-reveal style="--d:.08s">
+            <a href="#insights" class="block">
+              <div class="aspect-[4/3] overflow-hidden rounded-3xl bg-navy-900">
+                <img class="h-full w-full object-cover transition duration-700 group-hover:scale-105" src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=900&q=80" alt="View of Earth from space with city lights and network lines" loading="lazy" />
+              </div>
+              <div class="mt-6 flex items-center gap-3 text-[13px] text-steel"><span class="rounded-full bg-white px-3 py-1 font-medium text-brand">Market entry</span><time datetime="2026-08">Aug 2026 (placeholder)</time></div>
+              <h3 class="mt-4 font-display text-xl font-semibold leading-snug tracking-tight transition-colors group-hover:text-brand">Understanding international market entry</h3>
+              <p class="mt-2 text-[15px] leading-relaxed text-steel">The questions to answer on regulation, partners and operations before committing to a new country.</p>
+              <span class="mt-5 inline-flex items-center gap-2 text-[14px] font-medium">Read article <i data-lucide="arrow-right" class="h-4 w-4 transition-transform group-hover:translate-x-1"></i></span>
+            </a>
+          </article>
+          <article class="group" data-reveal style="--d:.16s">
+            <a href="#insights" class="block">
+              <div class="aspect-[4/3] overflow-hidden rounded-3xl bg-navy-900">
+                <img class="h-full w-full object-cover transition duration-700 group-hover:scale-105" src="https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=900&q=80" alt="Abstract rendering representing artificial intelligence" loading="lazy" />
+              </div>
+              <div class="mt-6 flex items-center gap-3 text-[13px] text-steel"><span class="rounded-full bg-white px-3 py-1 font-medium text-brand">Technology</span><time datetime="2026-07">Jul 2026 (placeholder)</time></div>
+              <h3 class="mt-4 font-display text-xl font-semibold leading-snug tracking-tight transition-colors group-hover:text-brand">How AI is changing business strategy</h3>
+              <p class="mt-2 text-[15px] leading-relaxed text-steel">Where AI is producing measurable value today, and how leadership teams should evaluate it.</p>
+              <span class="mt-5 inline-flex items-center gap-2 text-[14px] font-medium">Read article <i data-lucide="arrow-right" class="h-4 w-4 transition-transform group-hover:translate-x-1"></i></span>
+            </a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         CTA
+         =================================================================== -->
+    <section id="contact" class="relative overflow-hidden bg-navy-950 py-28 text-white sm:py-40">
+      <div class="orb orb-a -left-40 top-0 h-[520px] w-[520px] bg-brand" aria-hidden="true"></div>
+      <div class="orb orb-b -right-40 bottom-0 h-[460px] w-[460px] bg-electric/60" aria-hidden="true"></div>
+      <div class="bg-grid-dark grid-fade grid-drift pointer-events-none absolute inset-0" aria-hidden="true"></div>
+
+      <div class="relative mx-auto max-w-4xl px-5 text-center sm:px-8">
+        <h2 class="font-display text-[2.6rem] font-semibold leading-[1.02] tracking-[-0.035em] sm:text-6xl lg:text-7xl" data-reveal-group>
+          <span class="mask-line"><span>Ready to expand</span></span>
+          <span class="mask-line"><span style="--d:.12s">what's possible?</span></span>
+        </h2>
+        <p class="mx-auto mt-7 max-w-xl text-lg leading-relaxed text-white/70" data-reveal>Speak with our advisory team about your next stage of growth.</p>
+        <div class="mt-10 flex flex-col justify-center gap-3 sm:flex-row" data-reveal>
+          <a href="mailto:info@example.com" class="group inline-flex items-center justify-center gap-2 rounded-full bg-white px-8 py-4 text-[15px] font-medium text-navy-950 transition hover:bg-electric hover:text-white">
+            Speak to an Advisor <i data-lucide="arrow-up-right" class="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"></i>
+          </a>
+          <a href="#footer-contact" class="inline-flex items-center justify-center rounded-full border border-white/25 px-8 py-4 text-[15px] font-medium transition hover:border-white/60 hover:bg-white/5">Contact Nexus</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===================================================================
+       Footer
+       =================================================================== -->
+  <footer class="bg-ink text-white/60">
+    <div class="mx-auto max-w-site px-5 pb-10 pt-20 sm:px-8">
+      <div class="grid grid-cols-2 gap-10 md:grid-cols-4 lg:grid-cols-12">
+        <div class="col-span-2 md:col-span-4 lg:col-span-4">
+          <a href="#home" class="flex items-center gap-3 text-white" aria-label="Nexus Global Holdings, back to top">
+            <svg class="h-9 w-9" viewBox="0 0 36 36" aria-hidden="true"><rect width="36" height="36" rx="10" fill="#1F4FD1"/><path d="M11 25V11l14 14V11" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="11" cy="11" r="2.4" fill="#fff"/><circle cx="25" cy="25" r="2.4" fill="#fff"/><circle cx="25" cy="11" r="2.4" fill="#9CC4FF"/></svg>
+            <span class="font-display text-lg font-semibold">Nexus Global Holdings</span>
+          </a>
+          <p class="mt-5 max-w-sm text-[15px] leading-relaxed">Business and management consulting for companies navigating international markets, payments, regulation and technology.</p>
+          <div id="footer-contact" class="mt-8 space-y-2 text-[14px]">
+            <p class="flex items-center gap-2"><i data-lucide="mail" class="h-4 w-4 text-electric"></i> [Email address to be confirmed]</p>
+            <p class="flex items-center gap-2"><i data-lucide="phone" class="h-4 w-4 text-electric"></i> [Phone number to be confirmed]</p>
+          </div>
+          <div class="mt-8 flex gap-2">
+            <a href="#" class="grid h-10 w-10 place-items-center rounded-full border border-white/15 transition hover:border-electric hover:text-white" aria-label="Nexus Global Holdings on LinkedIn"><i data-lucide="linkedin" class="h-4 w-4"></i></a>
+            <a href="#" class="grid h-10 w-10 place-items-center rounded-full border border-white/15 transition hover:border-electric hover:text-white" aria-label="Nexus Global Holdings on X"><i data-lucide="twitter" class="h-4 w-4"></i></a>
+            <a href="#" class="grid h-10 w-10 place-items-center rounded-full border border-white/15 transition hover:border-electric hover:text-white" aria-label="Nexus Global Holdings on Facebook"><i data-lucide="facebook" class="h-4 w-4"></i></a>
+          </div>
+        </div>
+
+        <nav aria-label="Company" class="lg:col-span-2">
+          <h3 class="text-[14px] font-medium text-white">Company</h3>
+          <ul class="mt-5 space-y-3 text-[14px]">
+            <li><a class="transition hover:text-white" href="#about">About</a></li>
+            <li><a class="transition hover:text-white" href="#why">Why Nexus</a></li>
+            <li><a class="transition hover:text-white" href="#process">How we work</a></li>
+            <li><a class="transition hover:text-white" href="#insights">Insights</a></li>
+            <li><a class="transition hover:text-white" href="#contact">Contact</a></li>
+          </ul>
+        </nav>
+        <nav aria-label="Services" class="lg:col-span-2">
+          <h3 class="text-[14px] font-medium text-white">Services</h3>
+          <ul class="mt-5 space-y-3 text-[14px]">
+            <li><a class="transition hover:text-white" href="#services">Management Consulting</a></li>
+            <li><a class="transition hover:text-white" href="#payments">Payment Solutions</a></li>
+            <li><a class="transition hover:text-white" href="#regulatory">Licensing &amp; Regulatory</a></li>
+            <li><a class="transition hover:text-white" href="#technology">Technology Advisory</a></li>
+            <li><a class="transition hover:text-white" href="#services">Market Expansion</a></li>
+            <li><a class="transition hover:text-white" href="#services">Data &amp; AI Insights</a></li>
+          </ul>
+        </nav>
+        <nav aria-label="Industries" class="lg:col-span-2">
+          <h3 class="text-[14px] font-medium text-white">Industries</h3>
+          <ul class="mt-5 space-y-3 text-[14px]">
+            <li><a class="transition hover:text-white" href="#industries">Financial Services</a></li>
+            <li><a class="transition hover:text-white" href="#industries">Fintech</a></li>
+            <li><a class="transition hover:text-white" href="#industries">Payments</a></li>
+            <li><a class="transition hover:text-white" href="#industries">E-commerce</a></li>
+            <li><a class="transition hover:text-white" href="#industries">Gaming</a></li>
+          </ul>
+        </nav>
+        <nav aria-label="Legal" class="lg:col-span-2">
+          <h3 class="text-[14px] font-medium text-white">Legal</h3>
+          <ul class="mt-5 space-y-3 text-[14px]">
+            <li><a class="transition hover:text-white" href="#">Privacy Policy</a></li>
+            <li><a class="transition hover:text-white" href="#">Terms &amp; Conditions</a></li>
+            <li><a class="transition hover:text-white" href="#">Cookie Policy</a></li>
+          </ul>
+        </nav>
+      </div>
+
+      <!-- Disclaimer -->
+      <div class="mt-16 rounded-2xl border border-white/10 p-6 text-[13px] leading-relaxed text-white/45">
+        <p><span class="font-medium text-white/70">Disclaimer.</span> Nexus Global Holdings provides business and management consulting and advisory services. Payment processing, acquiring, e-money and other regulated services referred to on this website are provided by independent, appropriately licensed third parties. Information on this website is general in nature and does not constitute legal, financial or regulatory advice.</p>
+      </div>
+
+      <div class="mt-10 flex flex-col gap-4 border-t border-white/10 pt-8 text-[13px] sm:flex-row sm:items-center sm:justify-between">
+        <p>&copy; <span id="year">2026</span> Nexus Global Holdings. All rights reserved.</p>
+        <a href="#home" class="inline-flex items-center gap-2 transition hover:text-white">Back to top <i data-lucide="arrow-up" class="h-4 w-4"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Icons -->
+  <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

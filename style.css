@@ -1,0 +1,115 @@
+/* ==========================================================================
+   Nexus Global Holdings — small custom layer on top of Tailwind
+   Only effects that are awkward as utilities live here.
+   ========================================================================== */
+
+html { scroll-behavior: smooth; scroll-padding-top: 88px; }
+body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+
+/* Visible, consistent keyboard focus */
+:focus-visible { outline: 2px solid #3D8BFF; outline-offset: 3px; border-radius: 6px; }
+
+/* ---------- Grid backgrounds ---------- */
+.bg-grid-dark {
+  background-image:
+    linear-gradient(to right, rgba(255,255,255,.055) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,.055) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+.bg-grid-light {
+  background-image:
+    linear-gradient(to right, rgba(11,26,46,.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(11,26,46,.06) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+.grid-fade { -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 30%, transparent 80%);
+             mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 30%, transparent 80%); }
+.grid-drift { animation: gridDrift 40s linear infinite; }
+@keyframes gridDrift { to { background-position: 64px 64px; } }
+
+/* ---------- Scroll reveal ---------- */
+[data-reveal] { opacity: 0; transform: translateY(22px);
+  transition: opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1);
+  transition-delay: var(--d, 0s); }
+[data-reveal].is-visible { opacity: 1; transform: none; }
+
+/* Masked heading reveal: wrap each line in .mask-line > span */
+.mask-line { display: block; overflow: hidden; padding-bottom: .06em; }
+.mask-line > span { display: inline-block; transform: translateY(105%);
+  transition: transform 1.1s cubic-bezier(.19,1,.22,1); transition-delay: var(--d, 0s); }
+.is-visible .mask-line > span, .mask-line.is-visible > span { transform: none; }
+
+/* ---------- Hero floating chips ---------- */
+.float-slow { animation: floatY 7s ease-in-out infinite; }
+.float-slow.delay-1 { animation-delay: -2.3s; }
+.float-slow.delay-2 { animation-delay: -4.6s; }
+@keyframes floatY { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+/* ---------- Glow-border cards (regulatory) ---------- */
+.glow-card { position: relative; isolation: isolate; }
+.glow-card::before {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1px; z-index: -1;
+  background: radial-gradient(360px circle at var(--mx, 50%) var(--my, 50%), rgba(61,139,255,.75), transparent 45%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+  opacity: 0; transition: opacity .4s ease;
+}
+.glow-card::after {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; z-index: -1; pointer-events: none;
+  background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgba(61,139,255,.08), transparent 45%);
+  opacity: 0; transition: opacity .4s ease;
+}
+.glow-wrap:hover .glow-card::before, .glow-card:focus-within::before { opacity: 1; }
+.glow-card:hover::after { opacity: 1; }
+
+/* ---------- Tilt cards (technology) ---------- */
+.tilt { transform-style: preserve-3d; transition: transform .5s cubic-bezier(.2,.7,.2,1); will-change: transform; }
+
+/* ---------- Payment flow connectors ---------- */
+.flow-line { position: relative; width: 2px; height: 44px; margin: 0 auto;
+  background: linear-gradient(to bottom, rgba(61,139,255,.15), rgba(61,139,255,.45)); }
+.flow-line::after { content: ""; position: absolute; left: 50%; width: 6px; height: 6px; margin-left: -3px;
+  border-radius: 999px; background: #3D8BFF; box-shadow: 0 0 12px 2px rgba(61,139,255,.7);
+  animation: flowDot 2.4s cubic-bezier(.45,0,.55,1) infinite; animation-delay: var(--d, 0s); }
+@keyframes flowDot { 0% { top: -4px; opacity: 0; } 15% { opacity: 1; } 85% { opacity: 1; } 100% { top: 42px; opacity: 0; } }
+
+/* ---------- Process timeline ---------- */
+.timeline-fill { transform-origin: left center; transform: scaleX(var(--p, 0)); transition: transform .15s linear; }
+@media (max-width: 1023px) { .timeline-fill { transform-origin: top center; transform: scaleY(var(--p, 0)); } }
+.step.is-active .step-dot { background: #1F4FD1; border-color: #1F4FD1; color: #fff; box-shadow: 0 0 0 6px rgba(31,79,209,.12); }
+
+/* ---------- CTA ambient glow ---------- */
+.orb { position: absolute; border-radius: 999px; filter: blur(80px); opacity: .55; }
+.orb-a { animation: orbA 22s ease-in-out infinite; }
+.orb-b { animation: orbB 26s ease-in-out infinite; }
+@keyframes orbA { 0%,100% { transform: translate(0,0); } 50% { transform: translate(18%, 12%); } }
+@keyframes orbB { 0%,100% { transform: translate(0,0); } 50% { transform: translate(-16%, -10%); } }
+
+/* ---------- Testimonials ---------- */
+.slide { grid-area: 1 / 1; opacity: 0; visibility: hidden; transform: translateY(12px);
+  transition: opacity .7s ease, transform .7s ease, visibility 0s linear .7s; }
+.slide.is-active { opacity: 1; visibility: visible; transform: none; transition-delay: 0s; }
+
+/* ---------- Mobile menu ---------- */
+#mobile-menu { clip-path: inset(0 0 100% 0); transition: clip-path .6s cubic-bezier(.77,0,.18,1); }
+#mobile-menu.is-open { clip-path: inset(0 0 0 0); }
+#mobile-menu .m-link { opacity: 0; transform: translateY(16px); transition: opacity .5s ease, transform .5s ease; }
+#mobile-menu.is-open .m-link { opacity: 1; transform: none; transition-delay: calc(.2s + var(--i) * .05s); }
+.burger span { transition: transform .35s ease, opacity .25s ease; }
+.burger[aria-expanded="true"] span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.burger[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+.burger[aria-expanded="true"] span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+/* Active nav link */
+.nav-link.is-active { color: #fff; }
+.nav-link.is-active::after { transform: scaleX(1); }
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important; transition-delay: 0s !important; }
+  [data-reveal] { opacity: 1; transform: none; }
+  .mask-line > span { transform: none; }
+  .flow-line::after { display: none; }
+}
